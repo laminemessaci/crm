@@ -8,10 +8,12 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\InvoiceRepository;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
 #[ApiResource(
     order: ['sentAt' => 'DESC'],
+    normalizationContext: ['groups' => ['invoices_read']],
 )]
 #[ApiFilter(OrderFilter::class)]
 class Invoice
@@ -19,23 +21,31 @@ class Invoice
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["invoices_read","customers_read"])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(["invoices_read","customers_read"])]
     private ?float $amount = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(["invoices_read","customers_read"])]
     private ?\DateTimeInterface $sentAt = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["invoices_read","customers_read"])]
     private ?string $status = null;
+
+    #[ORM\Column]
+    #[Groups(["invoices_read","customers_read"])]
+    private ?int $chrono = null;
 
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups("invoices_read")]
     private ?Customer $customer = null;
 
-    #[ORM\Column]
-    private ?int $chrono = null;
+  
 
     public function getId(): ?int
     {
@@ -101,4 +111,17 @@ class Invoice
 
         return $this;
     }
+
+     /**
+      * Retrieves the User object.
+      *
+      * @throws Some_Exception_Class if the User object cannot be retrieved.
+      * @return User The User object.
+      */
+    #[Groups("invoices_read")]
+     public function getUser(): User 
+    {
+        return $this->customer->getUser();
+    }
+
 }

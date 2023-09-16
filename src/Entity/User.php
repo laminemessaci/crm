@@ -15,18 +15,20 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ApiResource]
-#[UniqueEntity('email')]
+#[ApiResource(
+        normalizationContext: ['groups' => ['users_read']],
+)]
+#[UniqueEntity('email', message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["customers_read", "invoices_read"])]
+    #[Groups(["customers_read", "invoices_read", "users_read"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(["customers_read", "invoices_read"])]
+    #[Groups(["customers_read", "invoices_read", "users_read"])]
     #[Assert\NotBlank]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
     private ?string $email = null;
@@ -43,13 +45,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["customers_read", "invoices_read"])]
+    #[Groups(["customers_read", "invoices_read", "users_read"])]
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["customers_read", "invoices_read"])]
+    #[Groups(["customers_read", "invoices_read", "users_read"])]
     private ?string $lastName = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Customer::class)]
@@ -85,6 +87,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->getUserIdentifier();
     }
 
     /**

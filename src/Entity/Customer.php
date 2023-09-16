@@ -18,6 +18,7 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ApiResource(
@@ -44,14 +45,20 @@ class Customer
 
     #[ORM\Column(length: 255)]
     #[Groups(["customers_read", "invoices_read"])]
+    #[Assert\NotBlank(message:"First name is required")]
+    #[Assert\Length(min: 2, max: 255)]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(["customers_read", "invoices_read"])]
+    #[NotBlank(message:"Last name is required")]
+    #[Assert\Length(min: 2, max: 255)]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(["customers_read", "invoices_read"])]
+    #[Assert\NotBlank(message:"Email is required")]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -64,6 +71,7 @@ class Customer
 
     #[ORM\ManyToOne(inversedBy: 'customers')]
     #[Groups(["customers_read"])]
+    #[Assert\NotBlank(message:"User is required")]
     private ?User $user = null;
 
     public function __construct()

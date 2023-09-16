@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
+
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
@@ -13,6 +16,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource]
+#[UniqueEntity('email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -23,6 +27,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)]
     #[Groups(["customers_read", "invoices_read"])]
+    #[Assert\NotBlank]
+    #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -32,10 +38,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Please enter a password')]
+    #[Assert\Length(min: 5, max: 20, minMessage: 'Your password must be at least {{ limit }} characters', maxMessage: 'Your password cannot be longer than {{ limit }} characters')]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(["customers_read", "invoices_read"])]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 50)]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]

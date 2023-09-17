@@ -51,7 +51,7 @@ class Customer
 
     #[ORM\Column(length: 255)]
     #[Groups(["customers_read", "invoices_read"])]
-    #[NotBlank(message:"Last name is required")]
+    #[Assert\NotBlank(message:"Last name is required")]
     #[Assert\Length(min: 2, max: 255)]
     private ?string $lastName = null;
 

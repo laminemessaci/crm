@@ -24,7 +24,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
     order: ['sentAt' => 'DESC'],
     normalizationContext: ['groups' => ['invoices_read']],
     denormalizationContext: ['disable_type_assertion' => true],
-    
 )]
 #[ApiResource(
     uriTemplate: '/customers/{id}/invoices',
@@ -33,7 +32,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     normalizationContext: ['groups' => ['invoices_sub_resources']],
     denormalizationContext: ['disable_type_enforcement' => true],
-    
+
     operations: [new GetCollection()]
 )]
 #[ApiFilter(OrderFilter::class)]
@@ -42,34 +41,34 @@ class Invoice
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["invoices_read","customers_read",'invoices_sub_resources'])]
+    #[Groups(["invoices_read", "customers_read", 'invoices_sub_resources'])]
     private ?int $id = null;
 
     // TODO: Add Validation, Assert don't work
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    #[Groups(["invoices_read","customers_read",'invoices_sub_resources'])]
+    #[ORM\Column(type: Types::FLOAT, precision: 10, scale: 2)]
+    #[Groups(["invoices_read", "customers_read", 'invoices_sub_resources'])]
     #[Assert\NotBlank]
-    #[Assert\Types(type: 'float', message: 'The amount must be a valid number')]
-    private  ?string $amount = null;
+    #[Assert\Type(type: 'float', message: 'The amount must be a valid number')]
+    private   ?float $amount = null;
 
     // TODO: Add Validation, Assert don't work
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(["invoices_read","customers_read",'invoices_sub_resources'])]
+    #[Groups(["invoices_read", "customers_read", 'invoices_sub_resources'])]
     #[Assert\NotBlank]
-    #[Assert\Types(type: 'datetime', message: 'The sentAt must be a valid datetime', format: 'YYYY-MM-DD')]
+    #[Assert\Type(type: 'datetime', message: 'The sentAt must be a valid datetime')]
     private ?\DateTimeInterface $sentAt = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(["invoices_read","customers_read",'invoices_sub_resources'])]
+    #[Groups(["invoices_read", "customers_read", 'invoices_sub_resources'])]
     #[Assert\NotBlank(message: 'Status is required')]
     #[Assert\Choice(choices: ['SENT', 'PAID', 'CANCELLED'], message: 'Status must be SENT, PAID or CANCELLED')]
     private ?string $status = null;
 
     #[ORM\Column]
-    #[Groups(["invoices_read","customers_read",'invoices_sub_resources'])]
+    #[Groups(["invoices_read", "customers_read", 'invoices_sub_resources'])]
     #[Assert\NotBlank(message: 'Chrono is required')]
     #[Assert\Positive]
-    #[Assert\Types(type: 'integer', message: 'The chrono must be a valid number')]
+    #[Assert\Type(type: 'integer', message: 'The chrono must be a valid number')]
     private ?int $chrono = null;
 
     #[ORM\ManyToOne(inversedBy: 'invoices')]
@@ -78,7 +77,7 @@ class Invoice
     #[Assert\NotBlank(message: 'Customer is required')]
     private ?Customer $customer = null;
 
-  
+
 
     public function getId(): ?int
     {
@@ -90,10 +89,10 @@ class Invoice
         return $this->amount;
     }
 
-    public function setAmount( $amount): static
+    public function setAmount($amount): static
     {
-       
-        $this->amount =(float) $amount;
+
+        $this->amount =  $amount;
 
         return $this;
     }
@@ -146,16 +145,15 @@ class Invoice
         return $this;
     }
 
-     /**
-      * Retrieves the User object.
-      *
-      * @throws Some_Exception_Class if the User object cannot be retrieved.
-      * @return User The User object.
-      */
+    /**
+     * Retrieves the User object.
+     *
+     * @throws Some_Exception_Class if the User object cannot be retrieved.
+     * @return User The User object.
+     */
     #[Groups("invoices_read")]
-     public function getUser(): User 
+    public function getUser(): User
     {
         return $this->customer->getUser();
     }
-
 }

@@ -25,6 +25,11 @@ class InvoiceChronoSubscriber implements EventSubscriberInterface
 
 
 
+    /**
+     * Returns an array of events to which the subscribers of this class should be subscribed.
+     *
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         return [
@@ -32,14 +37,25 @@ class InvoiceChronoSubscriber implements EventSubscriberInterface
         ];
     }
 
+/**
+ * Sets the chrono for an invoice.
+ *
+ * @param ViewEvent $event The view event.
+ * @throws \Exception If an error occurs.
+ * @return void
+ */
     public function setChronoForInvoice(ViewEvent $event): void
     {
-        $object = $event->getControllerResult();
-        $method = $event->getRequest()->getMethod();
+        try {
+            $invoice = $event->getControllerResult();
+            $requestMethod = $event->getRequest()->getMethod();
+        } catch (\Exception $e) {
+            return;
+        }
 
-        if ($object instanceof Invoice && $method === "POST") {
+        if ($invoice instanceof Invoice && $requestMethod === "POST") {
             $nextChrono = $this->repository->findNextChrono($this->security->getUser());
-            $object->setChrono($nextChrono);
+            $invoice->setChrono($nextChrono);
         }
     }
 }

@@ -31,22 +31,25 @@ class PasswordHasherSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * Hashes the password of a User object if the request method is POST.
-     *
-     * @param ViewEvent $event The ViewEvent object.
-     * @throws None
-     * @return void
-     */
-    public function hashPassword(ViewEvent $event): void
-    {
-        //dd($event);
-        $object = $event->getControllerResult();
-        $method = $event->getRequest()->getMethod();
-
-        if ($object instanceof User && $method === "POST") {
-            $hash = $this->hasher->hashPassword($object, $object->getPassword());
-            $object->setPassword($hash);
-        }
+/**
+ * Hashes the password of a User object if the request method is POST.
+ *
+ * @param ViewEvent $event The ViewEvent object.
+ * @throws None
+ * @return void
+ */
+public function hashPassword(ViewEvent $event): void
+{
+    try {
+        $user = $event->getControllerResult();
+        $requestMethod = $event->getRequest()->getMethod();
+    } catch (\Exception $e) {
+        return;
     }
+
+    if ($user instanceof User && $requestMethod === "POST") {
+        $hashedPassword = $this->hasher->hashPassword($user, $user->getPassword());
+        $user->setPassword($hashedPassword);
+    }
+}
 }

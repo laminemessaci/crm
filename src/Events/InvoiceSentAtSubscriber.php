@@ -18,13 +18,23 @@ class InvoiceSentAtSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * Sets the "sent at" timestamp for an invoice if it meets certain conditions.
+     *
+     * @param ViewEvent $event The event object.
+     * @throws \Exception If an error occurs.
+     */
     public function setSentAtForInvoice(ViewEvent $event): void
     {
-        $object = $event->getControllerResult();
-        $method = $event->getRequest()->getMethod();
+        try {
+            $invoice = $event->getControllerResult();
+            $requestMethod = $event->getRequest()->getMethod();
+        } catch (\Exception $e) {
+            return;
+        }
 
-        if ($object instanceof Invoice && $method === "POST" && empty($object->getSentAt())) {
-            $object->setSentAt(new \DateTime());
+        if ($invoice instanceof Invoice && $requestMethod === "POST" && !$invoice->getSentAt()) {
+            $invoice->setSentAt(new \DateTime());
         }
     }
 }

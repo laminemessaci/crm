@@ -7,6 +7,11 @@ use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 
 class JwtCreatedSubscriber
 {
+    /**
+     * Updates the JWT data with the user's first and last name.
+     *
+     * @param JWTCreatedEvent $event The JWT created event.
+     */
     public function updateJwtData(JWTCreatedEvent $event)
     {
         $user = $event->getUser();

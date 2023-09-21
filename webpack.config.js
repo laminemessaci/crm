@@ -1,3 +1,4 @@
+require("dotenv").config();
 const Encore = require("@symfony/webpack-encore");
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
@@ -60,13 +61,23 @@ Encore
   //.enableTypeScriptLoader()
 
   // uncomment if you use React
-  .enableReactPreset()
+  .enableReactPreset();
 
-  // uncomment to get integrity="..." attributes on your script & link tags
-  // requires WebpackEncoreBundle 1.4 or higher
-  //.enableIntegrityHashes(Encore.isProduction())
+// uncomment to get integrity="..." attributes on your script & link tags
+// requires WebpackEncoreBundle 1.4 or higher
+//.enableIntegrityHashes(Encore.isProduction())
 
-  // uncomment if you're having problems with a jQuery plugin
-  .autoProvidejQuery();
+// uncomment if you're having problems with a jQuery plugin
+// .autoProvidejQuery()
+
+Encore.configureDefinePlugin((options) => {
+  options["process.env"] = {
+    API_URL: JSON.stringify(process.env.API_URL),
+    CUSTOMERS_API: JSON.stringify(process.env.CUSTOMERS_API),
+    INVOICES_API: JSON.stringify(process.env.INVOICES_API),
+    USERS_API: JSON.stringify(process.env.USERS_API),
+    LOGIN_API: JSON.stringify(process.env.LOGIN_API),
+  };
+});
 
 module.exports = Encore.getWebpackConfig();

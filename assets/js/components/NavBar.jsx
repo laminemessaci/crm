@@ -1,12 +1,13 @@
 import React from "react";
+import { Link, NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        {/* <a className="navbar-brand" href="#">
           Fact
-        </a>
+        </a> */}
 
         <button
           className="navbar-toggler"
@@ -23,7 +24,7 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto d-flex flex-row mt-3 mt-lg-0">
             <li className="nav-item text-center mx-2 mx-lg-1">
-              <a className="nav-link active" aria-current="page" href="#!">
+              <a className="nav-link active" aria-current="page" href="/">
                 <div>
                   <i className="fas fa-home fa-lg mb-1"></i>
                 </div>
@@ -31,7 +32,7 @@ function Navbar() {
               </a>
             </li>
             <li className="nav-item text-center mx-2 mx-lg-1">
-              <a className="nav-link" href="#!">
+              <Link className="nav-link" to="/customers">
                 <div>
                   <i className="far fa-user fa-lg mb-1"></i>
                   <span className="badge rounded-pill badge-notification bg-success">
@@ -39,10 +40,10 @@ function Navbar() {
                   </span>
                 </div>
                 Customers
-              </a>
+              </Link>
             </li>
             <li className="nav-item text-center mx-2 mx-lg-1">
-              <a className="nav-link disabled" aria-disabled="true" href="#!">
+              <Link className="nav-link " to="/invoices">
                 <div>
                   <i className="fa-solid fa-file-invoice fa-lg mb-1"></i>
                   <span className="badge rounded-pill badge-notification bg-warning">
@@ -50,7 +51,7 @@ function Navbar() {
                   </span>
                 </div>
                 Invoices
-              </a>
+              </Link>
             </li>
             {/* <li className="nav-item dropdown text-center mx-2 mx-lg-1">
               <a
@@ -98,7 +99,7 @@ function Navbar() {
 
           <ul className="navbar-nav ms-auto d-flex flex-row mt-3 mt-lg-0">
             <li className="nav-item text-center mx-2 mx-lg-1">
-              <a className="nav-link" href="#!">
+              <Link className="nav-link" to="/login">
                 <div>
                   <i className="fas fa-user fa-lg mb-1"></i>
                   <span className="badge rounded-pill badge-notification bg-info">
@@ -106,18 +107,18 @@ function Navbar() {
                   </span>
                 </div>
                 Login
-              </a>
+              </Link>
             </li>
             <li className="nav-item text-center mx-2 mx-lg-1">
-              <a className="nav-link" href="#!">
+              <Link className="nav-link" to="/sign-up">
                 <div>
                   <i className="fas fa-user-plus fa-lg mb-1"></i>
                   <span className="badge rounded-pill badge-notification bg-success">
                     11
                   </span>
                 </div>
-                SinUp
-              </a>
+                SignUp
+              </Link>
             </li>
           </ul>
 

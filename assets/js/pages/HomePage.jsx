@@ -5,11 +5,13 @@ const HomePage = () => {
     <>
       <div className="jumbotron">
         <div className="container">
-          <h1 className="display-3">FACT</h1>
-          <span>Welcome to our Invoice Management System!</span>
+          <h1 className="display-5 text-center">FACT</h1>
+          <h2 className="display-6 text-center text-bold ">
+            Welcome to our Invoice Management System!
+          </h2>
           <p className="lead"></p>
           <hr className="my-4" />
-          <p className="lead my-5">
+          <p className="lead text-white ">
             Efficiently manage your invoices, track payments, and stay organized
             with our user-friendly platform. With powerful features and
             intuitive design, we make it easy for you to keep your financial
@@ -19,9 +21,10 @@ const HomePage = () => {
             Get started today and experience hassle-free invoice management.
             Sign in or create an account to begin.
           </p>
-          <p className="lead my-5">
-            Have questions or need assistance? Our support team is here to help
-            <a className="btn btn-primary btn-lg" href="#" role="button">
+          <p className="lead my-5 text-small">
+            Have questions or need assistance? Our support team is here to help{" "}
+            <br />
+            <a className="btn btn-primary btn-lg  my-4" href="#" role="button">
               En savoir plus
             </a>
           </p>

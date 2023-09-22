@@ -4,6 +4,7 @@ import Cache from "./cache";
 
 async function findAll() {
   const cachedCustomers = await Cache.get("customers");
+
   if (cachedCustomers) {
     return cachedCustomers;
   }
@@ -11,7 +12,7 @@ async function findAll() {
   return axios.get(CUSTOMERS_API).then((response) => {
     const customers = response.data["hydra:member"];
     Cache.set("customers", customers);
-
+  
     return customers;
   });
 }

@@ -13,26 +13,28 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
 
-    private $tokenStorage;
+    private $security;
     private $auth;
 
     /**
      * Constructs a new instance of the class.
      *
-     * @param TokenStorageInterface $tokenStorage The token storage interface.
-     * @param AuthorizationCheckerInterface $checker The authorization checker interface.
+     * @param Security $security the security object
+     * @param AuthorizationCheckerInterface $checker the authorization checker object
      */
-    public function __construct(TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $checker)
+    public function __construct(Security $security, AuthorizationCheckerInterface $checker)
     {
-        $this->tokenStorage = $tokenStorage;
+        $this->security = $security;
         $this->auth = $checker;
     }
+
 
     /**
      * Adds a WHERE clause to the given query builder based on the resource class and user's role.
@@ -42,7 +44,7 @@ class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryIt
      */
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass)
     {
-        $user = $this->tokenStorage->getToken()->getUser();
+        $user = $this->security->getUser();
 
         if (($resourceClass === Customer::class || $resourceClass === Invoice::class)
             &&

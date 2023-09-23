@@ -15,7 +15,7 @@ import Navbar from "./js/components/Navbar.jsx";
 import HomePage from "./js/pages/HomePage.jsx";
 import Layout from "./js/components/Layout.jsx";
 import Login from "./js/pages/Login.jsx";
-import Loader from "./js/components/Loader.jsx";
+import Loader from "./js/components/Loaders/Loader.jsx";
 import CustomersPages from "./js/pages/CustomersPages.jsx";
 import AuthContext from "./js/contexts/AuthContext.js";
 import authAPI from "./js/services/authAPI.js";

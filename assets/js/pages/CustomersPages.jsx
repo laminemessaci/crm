@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CustomersAPI from "../services/customersAPI.js";
 import { toast } from "react-toastify";
+import TableLoader from "../components/Loaders/TableLoader.jsx";
 
 function CustomersPages() {
   const [customers, setCustomers] = useState([]);
@@ -59,39 +60,42 @@ function CustomersPages() {
           </tr>
         </thead>
 
-        {customers.map((customer, index) => (
-          <tbody key={`${customer.id}-${index}`}>
-            <tr>
-              <td>{customer.id}</td>
-              <td>{customer.firstName}</td>
-              <td>{customer.lastName}</td>
-              <td>{customer.email}</td>
-              <td>{customer.company}</td>
-              <td>
-                <span className="badge bg-primary mx-2">
-                  {customer.invoices.length}
-                </span>
-              </td>
-              <td>
-                <span className="badge bg-primary mx-2">
-                  {(customer.totalAmount / 100).toFixed(2)}
-                </span>
-              </td>
-              <td className="justify-content-start">
-                {/* <button className="btn btn-info m-1">Voir</button>
+        {!loading && (
+          <tbody>
+            {customers.map((customer, index) => (
+              <tr key={`${customer.id}-${index}`}>
+                <td>{customer.id}</td>
+                <td>{customer.firstName}</td>
+                <td>{customer.lastName}</td>
+                <td>{customer.email}</td>
+                <td>{customer.company}</td>
+                <td>
+                  <span className="badge bg-primary mx-2">
+                    {customer.invoices.length}
+                  </span>
+                </td>
+                <td>
+                  <span className="badge bg-primary mx-2">
+                    {(customer.totalAmount / 100).toFixed(2)}
+                  </span>
+                </td>
+                <td className="justify-content-start">
+                  {/* <button className="btn btn-info m-1">Voir</button>
                 <button className="btn btn-warning m-1">Modifier</button> */}
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(customer.id)}
-                  disabled={customer.invoices.length > 0}
-                >
-                  Supprimer
-                </button>
-              </td>
-            </tr>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(customer.id)}
+                    disabled={customer.invoices.length > 0}
+                  >
+                    Supprimer
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
-        ))}
+        )}
       </table>
+      {loading && <TableLoader />}
     </div>
   );
 }

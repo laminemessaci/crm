@@ -20,6 +20,7 @@ import CustomersPages from "./js/pages/CustomersPages.jsx";
 import AuthContext from "./js/contexts/AuthContext.js";
 import authAPI from "./js/services/authAPI.js";
 import "react-toastify/dist/ReactToastify.css";
+import Signup from "./js/pages/Signup.jsx";
 
 authAPI.setup();
 const App = () => {
@@ -47,6 +48,7 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/customers" element={<CustomersPages />} />
+          <Route path="/sign-up" element={<Signup />} />
           {/* </Route> */}
         </Routes>
       </Suspense>

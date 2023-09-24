@@ -48,6 +48,8 @@ function setup() {
     const { exp: tokenExpiration } = jwtDecode(token);
     if (tokenExpiration * 1000 > new Date().getTime()) {
       setAxiosToken(token);
+    } else {
+      logout();
     }
   }
 }

@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CustomersAPI from "../../services/customersAPI.js";
 import { toast } from "react-toastify";
 import TableLoader from "../../components/Loaders/TableLoader.jsx";
 import NoInvoicesPage from "../NoInvoicesPage.jsx";
 import useAuth from "../../services/hooks/useAuth.js";
 import Pagination from "../../components/Pagination.jsx";
+import AuthContext from "../../contexts/AuthContext.js";
 
 function CustomersPages() {
-  const { username, status, isAdmin, firstname, lastname } = useAuth();
+  // const { username, status, isAdmin, firstname, lastname } = useAuth();
+  const { customersLength, setCustomersLength } = useContext(AuthContext);
 
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,6 +23,7 @@ function CustomersPages() {
         toast.error("No customers found");
       }
       setCustomers(data);
+      setCustomersLength(data.length);
       setLoading(false);
       customers.length === 0
         ? null

@@ -7,10 +7,12 @@ import authAPI from "../services/authAPI.js";
 import useAuth from "../services/hooks/useAuth.js";
 
 function Navbar() {
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated, customersLength } =
+    useContext(AuthContext);
   const { username, firstname, lastname, status, isAdmin, roles } = useAuth();
 
   const navigate = useNavigate();
+  console.log(customersLength);
 
   // useEffect(() => {
   //   if (!isAuthenticated) {
@@ -57,7 +59,7 @@ function Navbar() {
                 <div>
                   <i className="far fa-user fa-lg mb-1"></i>
                   <span className="badge rounded-pill badge-notification bg-success">
-                    11
+                    {customersLength}
                   </span>
                 </div>
                 Customers

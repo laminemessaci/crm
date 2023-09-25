@@ -90,9 +90,14 @@ function Signup(props) {
                       <div className="d-flex align-items-center mb-3 pb-1">
                         <i
                           className="fas fa-cubes fa-2x me-3"
-                          style={{ color: "#393f81" }}
+                          style={{ color: "#9A616D" }}
                         ></i>
-                        <span className="h1 fw-bold mb-0">FACT</span>
+                        <span
+                          className="h1 fw-bold mb-0"
+                          style={{ color: "#9A616D" }}
+                        >
+                          FACT
+                        </span>
                       </div>
 
                       <h4 className="fw-normal mb-3 pb-3">Sign Up</h4>

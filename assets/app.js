@@ -35,12 +35,15 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     authAPI.isAuthenticated()
   );
+  const [customersLength, setCustomersLength] = useState(0);
 
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated,
         setIsAuthenticated,
+        customersLength,
+        setCustomersLength,
       }}
     >
       <Navbar />

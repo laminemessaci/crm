@@ -4,13 +4,16 @@ import { toast } from "react-toastify";
 import TableLoader from "../../components/Loaders/TableLoader.jsx";
 import NoInvoicesPage from "../NoInvoicesPage.jsx";
 import useAuth from "../../services/hooks/useAuth.js";
+import Pagination from "../../components/Pagination.jsx";
 
 function CustomersPages() {
+  const { username, status, isAdmin, firstname, lastname } = useAuth();
+
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { username, status, isAdmin, firstname, lastname } = useAuth();
-  console.log("infos ==> ", username, status, isAdmin, firstname, lastname);
+  const [currentPage, setCurrentPage] = useState(1);
 
+  const itemsPerPage = 10;
   async function fetchCustomers() {
     try {
       const data = await CustomersAPI.findAll();
@@ -51,13 +54,30 @@ function CustomersPages() {
     fetchCustomers();
   }, []);
 
+  /**
+   * Handles the page change event.
+   *
+   * @param {number} page - The new page number.
+   * @return {undefined} This function does not return a value.
+   */
+  function handlePageChange(page) {
+    console.log(page);
+    setCurrentPage(page);
+  }
+
+  const paginatedCustomers = Pagination.getData(
+    customers,
+    currentPage,
+    itemsPerPage
+  );
+
   if (!customers) {
     return <NoInvoicesPage />;
   }
 
   return (
     <main className="vh-100" style={{ backgroundColor: "#9A616D" }}>
-      <div className="container ">
+      <div className="container  ">
         <h1 className="text-center p-5 text-white">Customers : </h1>
         <table className="table table-striped bg-light table-hover table-bordered text-center">
           <thead>
@@ -75,7 +95,7 @@ function CustomersPages() {
 
           {!loading && (
             <tbody className="table-group-divider">
-              {customers.map((customer, index) => (
+              {paginatedCustomers.map((customer, index) => (
                 <tr key={`${customer.id}-${index}`}>
                   <td>{customer.id}</td>
                   <td>{customer.firstName}</td>
@@ -110,6 +130,14 @@ function CustomersPages() {
           )}
         </table>
         {loading && <TableLoader />}
+        <div className="d-flex justify-content-center">
+          <Pagination
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            length={customers.length}
+            onPageChanged={handlePageChange}
+          />
+        </div>
       </div>
     </main>
   );

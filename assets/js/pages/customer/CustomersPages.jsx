@@ -7,6 +7,7 @@ import useAuth from "../../services/hooks/useAuth.js";
 import Pagination from "../../components/Pagination.jsx";
 import AuthContext from "../../contexts/AuthContext.js";
 
+const itemsPerPage = 10;
 function CustomersPages() {
   // const { username, status, isAdmin, firstname, lastname } = useAuth();
   const { customersLength, setCustomersLength } = useContext(AuthContext);
@@ -14,8 +15,8 @@ function CustomersPages() {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
 
-  const itemsPerPage = 10;
   async function fetchCustomers() {
     try {
       const data = await CustomersAPI.findAll();
@@ -68,8 +69,27 @@ function CustomersPages() {
     setCurrentPage(page);
   }
 
+  /**
+   * Handles the search event and updates the search state and current page.
+   *
+   * @param {object} currentTarget - The event target object.
+   * @return {undefined} This function does not return a value.
+   */
+  function handleSearch({ currentTarget }) {
+    console.log(currentTarget.value);
+    setSearch(currentTarget.value);
+    setCurrentPage(1);
+  }
+
+  const filteredCustomers = customers.filter(
+    (customer) =>
+      customer.firstName.toLowerCase().includes(search.toLowerCase()) ||
+      customer.lastName.toLowerCase().includes(search.toLowerCase()) ||
+      customer.email.toLowerCase().includes(search.toLowerCase())
+  );
+
   const paginatedCustomers = Pagination.getData(
-    customers,
+    filteredCustomers,
     currentPage,
     itemsPerPage
   );
@@ -82,6 +102,24 @@ function CustomersPages() {
     <main className="vh-100" style={{ backgroundColor: "#9A616D" }}>
       <div className="container  ">
         <h1 className="text-center p-5 text-white">Customers : </h1>
+
+        <div className="input-group mb-4 ">
+          <div className="form-floating ">
+            <input
+              id="search"
+              type="text"
+              name="search"
+              className="form-control"
+              placeholder="john doe"
+              value={search}
+              onChange={handleSearch}
+            />
+            <label htmlFor="search">Search</label>
+          </div>
+          <button type="button" className="btn btn-primary">
+            <i className="fas fa-search"></i>
+          </button>
+        </div>
         <table className="table table-striped bg-light table-hover table-bordered text-center">
           <thead>
             <tr className="text-center table-header text-bold ">
@@ -134,12 +172,14 @@ function CustomersPages() {
         </table>
         {loading && <TableLoader />}
         <div className="d-flex justify-content-center">
-          <Pagination
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            length={customers.length}
-            onPageChanged={handlePageChange}
-          />
+          {filteredCustomers.length > itemsPerPage && (
+            <Pagination
+              currentPage={currentPage}
+              itemsPerPage={itemsPerPage}
+              length={filteredCustomers.length}
+              onPageChanged={handlePageChange}
+            />
+          )}
         </div>
       </div>
     </main>

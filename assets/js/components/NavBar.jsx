@@ -171,21 +171,7 @@ function Navbar() {
             )}
           </ul>
 
-          {/* <form className="d-flex input-group w-auto ms-lg-3 my-3 my-lg-0">
-            <input
-              type="search"
-              className="form-control"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button
-              className="btn btn-primary"
-              type="button"
-              data-mdb-ripple-color="dark"
-            >
-              Search
-            </button>
-          </form> */}
+       
         </div>
       </div>
     </nav>

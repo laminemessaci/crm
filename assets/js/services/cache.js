@@ -7,6 +7,10 @@ function set(key, data) {
   };
 }
 
+function remove(key) {
+  cache[key] = null;
+}
+
 function get(key) {
   return new Promise((resolve) => {
     resolve(
@@ -20,4 +24,5 @@ function get(key) {
 export default {
   set,
   get,
+  remove,
 };

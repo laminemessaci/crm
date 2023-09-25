@@ -128,9 +128,10 @@ function Login(props) {
                         error={error || erroPassword}
                       />
 
-                      <div className="pt-1 mb-4">
+                      <div className="pt-1 mb-4 text-center">
                         <button
-                          className="btn btn-dark btn-lg btn-block"
+                          style={{ backgroundColor: "#9A616D", color: "white" }}
+                          className="btn  btn-lg btn-block"
                           type="submit"
                         >
                           Login

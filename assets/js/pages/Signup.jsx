@@ -95,12 +95,7 @@ function Signup(props) {
                         <span className="h1 fw-bold mb-0">FACT</span>
                       </div>
 
-                      <h5
-                        className="fw-normal mb-3 pb-3"
-                        style={{ letterSpacing: 1 }}
-                      >
-                        Sign Up
-                      </h5>
+                      <h4 className="fw-normal mb-3 pb-3">Sign Up</h4>
 
                       <Field
                         name="firstName"
@@ -147,7 +142,8 @@ function Signup(props) {
                       />
                       <div className="text-center">
                         <button
-                          className="btn btn-dark btn-lg btn-block"
+                          style={{ backgroundColor: "#9A616D", color: "white" }}
+                          className="btn  btn-lg btn-block"
                           type="submit"
                         >
                           Submit

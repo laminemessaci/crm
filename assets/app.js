@@ -11,16 +11,24 @@ import { BrowserRouter, Route, Routes, HashRouter } from "react-router-dom";
 
 // any CSS you import will output into a single css file (app.css in this case)
 import "./styles/app.css";
-import Navbar from "./js/components/Navbar.jsx";
 import HomePage from "./js/pages/HomePage.jsx";
 import Layout from "./js/components/Layout.jsx";
 import Login from "./js/pages/Login.jsx";
 import Loader from "./js/components/Loaders/Loader.jsx";
-import CustomersPages from "./js/pages/CustomersPages.jsx";
+import CustomersPages from "./js/pages/customer/CustomersPages.jsx";
 import AuthContext from "./js/contexts/AuthContext.js";
 import authAPI from "./js/services/authAPI.js";
 import "react-toastify/dist/ReactToastify.css";
 import Signup from "./js/pages/Signup.jsx";
+import Navbar from "./js/components/NavBar.jsx";
+import UserPages from "./js/pages/user/UserPages.jsx";
+import PrivateRoute from "./js/components/navigation/PrivateRoute.jsx";
+import InvoicesPages from "./js/pages/invoice/InvoicesPages.jsx";
+import UserSettings from "./js/pages/user/UserSettings.jsx";
+import RequireAuth from "./js/components/navigation/RequireAuth.js";
+import { ROLES } from "./js/config.js";
+import ErrorPage from "./js/pages/Error404/ErrorPage.jsx";
+// import "./animations.js";
 
 authAPI.setup();
 const App = () => {
@@ -44,12 +52,23 @@ const App = () => {
       >
         <Routes>
           {/* Public Routes */}
-          {/* <Route path="/" element={<Layout />}> */}
+
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/customers" element={<CustomersPages />} />
           <Route path="/sign-up" element={<Signup />} />
-          {/* </Route> */}
+
+          <Route element={<PrivateRoute />}>
+            <Route
+              element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.User]} />}
+            >
+              <Route path="/customers" element={<CustomersPages />} />
+              <Route path="/invoices" element={<InvoicesPages />} />
+              <Route path="/user-profile" element={<UserPages />} />
+              <Route path="/user-settings" element={<UserSettings />} />
+            </Route>
+          </Route>
+
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Suspense>
     </AuthContext.Provider>

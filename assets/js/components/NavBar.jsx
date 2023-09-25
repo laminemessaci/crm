@@ -1,7 +1,27 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+import AuthContext from "../contexts/AuthContext.js";
+import authAPI from "../services/authAPI.js";
+import useAuth from "../services/hooks/useAuth.js";
 
 function Navbar() {
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { username, firstname, lastname, status, isAdmin, roles } = useAuth();
+
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     navigate("/login");
+  //   }
+  // }, []);
+  function handleLogout() {
+    authAPI.logout();
+    setIsAuthenticated(false);
+    toast.info("Vous êtes désormais déconnecté");
+  }
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -13,7 +33,8 @@ function Navbar() {
           className="navbar-toggler"
           type="button"
           data-mdb-toggle="collapse"
-          data-mdb-target="#navbarSupportedContent"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
@@ -53,73 +74,99 @@ function Navbar() {
                 Invoices
               </Link>
             </li>
-            {/* <li className="nav-item dropdown text-center mx-2 mx-lg-1">
-              <a
-                className="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-mdb-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <div>
-                  <i className="far fa-envelope fa-lg mb-1"></i>
-                  <span className="badge rounded-pill badge-notification bg-primary">
-                    11
-                  </span>
-                </div>
-                Dropdown
-              </a>
-
-              <ul
-                className="dropdown-menu dropdown-menu-dark"
-                aria-labelledby="navbarDropdown"
-              >
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Action
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </li>
-              </ul>
-            </li> */}
+            {isAdmin && (
+              <li className="nav-item text-center mx-2 mx-lg-1">
+                <a className="nav-link active" aria-current="page" href="/">
+                  <div>
+                    <i className="fas fa-user-plus fa-lg mb-1"></i>
+                  </div>
+                  Add User
+                </a>
+              </li>
+            )}
           </ul>
 
           <ul className="navbar-nav ms-auto d-flex flex-row mt-3 mt-lg-0">
-            <li className="nav-item text-center mx-2 mx-lg-1">
-              <Link className="nav-link" to="/login">
-                <div>
-                  <i className="fas fa-user fa-lg mb-1"></i>
-                  <span className="badge rounded-pill badge-notification bg-info">
-                    11
-                  </span>
-                </div>
-                Login
-              </Link>
-            </li>
-            <li className="nav-item text-center mx-2 mx-lg-1">
-              <Link className="nav-link" to="/sign-up">
-                <div>
-                  <i className="fas fa-user-plus fa-lg mb-1"></i>
-                  <span className="badge rounded-pill badge-notification bg-success">
-                    11
-                  </span>
-                </div>
-                SignUp
-              </Link>
-            </li>
+            {(!isAuthenticated && (
+              <>
+                <li className="nav-item text-center mx-2 mx-lg-1">
+                  <Link className="nav-link" to="/login">
+                    <div>
+                      <i className="fas fa-user fa-lg mb-1"></i>
+                      <span className="badge rounded-pill badge-notification bg-info">
+                        11
+                      </span>
+                    </div>
+                    Login
+                  </Link>
+                </li>
+                <li className="nav-item text-center mx-2 mx-lg-1">
+                  <Link className="nav-link" to="/sign-up">
+                    <div>
+                      <i className="fas fa-user-plus fa-lg mb-1"></i>
+                      <span className="badge rounded-pill badge-notification bg-success">
+                        11
+                      </span>
+                    </div>
+                    SignUp
+                  </Link>
+                </li>
+              </>
+            )) || (
+              <>
+                <li className="nav-item dropdown mx-3">
+                  <a
+                    className="nav-link dropdown-toggle d-flex align-items-center"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img
+                      src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img (31).webp"
+                      className="rounded-circle"
+                      height="32"
+                      alt="Portrait of a Woman"
+                      loading="lazy"
+                    />
+                    <span className="mx-2">{firstname} </span>
+                  </a>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <Link to={"/user-profile"} className="dropdown-item">
+                      <div className="flex-direction-row">
+                        <i
+                          className="fas fa-id-card fa-lg mb-1 m-1"
+                          style={{ color: "#9A616D" }}
+                        ></i>
+                        Profil
+                      </div>
+                    </Link>
+                    <Link to={"/user-settings"} className="dropdown-item">
+                      <div className="flex-direction-row">
+                        <i
+                          className="fas fa-gear fa-lg mb-1 m-1"
+                          style={{ color: "#9A616D" }}
+                        ></i>
+                        Settings
+                      </div>
+                    </Link>
+                    <Link onClick={handleLogout} className="dropdown-item">
+                      <div className="flex-direction-row">
+                        <i
+                          className="fas fa-sign-out fa-lg mb-1 m-1 "
+                          style={{ color: "#9A616D" }}
+                        ></i>
+                        Logout
+                      </div>
+                    </Link>
+                  </ul>
+                </li>
+              </>
+            )}
           </ul>
 
           {/* <form className="d-flex input-group w-auto ms-lg-3 my-3 my-lg-0">

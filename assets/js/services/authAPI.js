@@ -2,6 +2,7 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { LOGIN_API } from "../config";
 import { toast } from "react-toastify";
+import Cache from "./cache.js";
 
 /**
  * Authenticates the user using the provided credentials.
@@ -34,6 +35,9 @@ function setAxiosToken(token) {
 function logout() {
   window.localStorage.removeItem("authToken");
   delete axios.defaults.headers["Authorization"];
+  Cache.remove("customers");
+
+  // toast.success("You have been logged out");
 }
 
 /**
@@ -62,9 +66,9 @@ function setup() {
 function isAuthenticated() {
   let authToken = null;
   try {
-    const authToken = window.localStorage.getItem("authToken");
+    authToken = window.localStorage.getItem("authToken");
   } catch (e) {
-    toast.error("Une erreur est survenue lors de l'authentification");
+    toast.error("Unable to fetch authentication token in local storage");
     return false;
   }
 

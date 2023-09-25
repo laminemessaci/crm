@@ -6,14 +6,12 @@ function NoInvoicesPage() {
       className="vh-100 d-flex align-items-center"
       style={{ backgroundColor: "#9A616D" }}
     >
-      <div class="container ">
-        <div class="card text-center">
-          <div class="card-body">
-            <h5 class="card-title">Aucune facture n'a été trouvée.</h5>
-            <p class="card-text">
-              Vous n'avez actuellement aucune facture dans votre compte.
-            </p>
-            <a href="#" class="btn btn-primary">
+      <div className="container d-flex  justify-content-center p-5">
+        <div className="card text-center">
+          <div className="card-body">
+            <h5 className="card-title">There is no invoices for this user</h5>
+            <p className="card-text">You can create a new invoice</p>
+            <a href="" className="btn btn-primary">
               Créer une nouvelle facture
             </a>
           </div>

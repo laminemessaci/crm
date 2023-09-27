@@ -50,7 +50,7 @@ security:
     - {
         path: ^/api/users,
         roles: IS_AUTHENTICATED_FULLY,
-        methods: [GET, PUT, PATCH, DELETE]
+        
       }
 
 when@test:

@@ -12,13 +12,7 @@ function Navbar() {
   const { username, firstname, lastname, status, isAdmin, roles } = useAuth();
 
   const navigate = useNavigate();
-  console.log(customersLength);
 
-  // useEffect(() => {
-  //   if (!isAuthenticated) {
-  //     navigate("/login");
-  //   }
-  // }, []);
   function handleLogout() {
     authAPI.logout();
     setIsAuthenticated(false);
@@ -170,8 +164,6 @@ function Navbar() {
               </>
             )}
           </ul>
-
-       
         </div>
       </div>
     </nav>

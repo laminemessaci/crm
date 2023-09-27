@@ -11,7 +11,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CustomerUserSubscriber implements EventSubscriberInterface
 {
-    private $security;
+
+    /**
+     * Undocumented variable
+     *
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
 
     /**
      * Constructs a new instance of the class.
@@ -20,7 +26,7 @@ class CustomerUserSubscriber implements EventSubscriberInterface
      */
     public function __construct(TokenStorageInterface $tokenStorage)
     {
-        $this->security = $tokenStorage;
+        $this->tokenStorage = $tokenStorage;
     }
 
 
@@ -37,7 +43,7 @@ class CustomerUserSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Set the user for the customer based on the view event.
+     * Sets the user for the customer based on the view event.
      *
      * @param ViewEvent $event The view event object.
      * @throws None
@@ -45,12 +51,12 @@ class CustomerUserSubscriber implements EventSubscriberInterface
      */
     public function setUserForCustomer(ViewEvent $event): void
     {
-        $object = $event->getControllerResult();
-        $method = $event->getRequest()->getMethod();
+        $controllerResult = $event->getControllerResult();
+        $requestMethod = $event->getRequest()->getMethod();
 
-        if ($object instanceof Customer && $method === "POST") {
-            $user = $this->security->getToken()->getUser(); 
-            $object->setUser($user);
+        if ($controllerResult instanceof Customer && ($requestMethod === "PUT" || $requestMethod === "POST")) {
+            $user = $this->tokenStorage->getToken()->getUser();
+            $controllerResult->setUser($user);
         }
     }
 }

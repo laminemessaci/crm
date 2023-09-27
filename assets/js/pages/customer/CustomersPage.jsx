@@ -6,11 +6,14 @@ import NoInvoicesPage from "../NoInvoicesPage.jsx";
 import useAuth from "../../services/hooks/useAuth.js";
 import Pagination from "../../components/Pagination.jsx";
 import AuthContext from "../../contexts/AuthContext.js";
+import { Link, useNavigate } from "react-router-dom";
+import { async } from "regenerator-runtime";
 
 const itemsPerPage = 10;
-function CustomersPages() {
+function CustomersPage() {
   // const { username, status, isAdmin, firstname, lastname } = useAuth();
   const { customersLength, setCustomersLength } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -41,17 +44,21 @@ function CustomersPages() {
    * @param {number} id - The ID of the customer to be deleted.
    * @return {Promise<void>} - A promise that resolves when the customer is deleted.
    */
-  async function handleDelete(id) {
-    const orginalCustomers = [...customers];
+  async function handleDelete(customerId) {
+    const originalCustomers = [...customers];
     setCustomers(customers.filter((customer) => customer.id !== customerId));
     try {
-      await CustomersAPI.deleteCustomer(id);
+      await CustomersAPI.delete(customerId);
       toast.success("Customer deleted successfully");
       // fetchCustomers();
     } catch (error) {
       toast.error("Unable to delete customer");
-      setCustomers(orginalCustomers);
+      setCustomers(originalCustomers);
     }
+  }
+
+  async function handleEdit(customerId) {
+    navigate("/customers/" + customerId);
   }
 
   useEffect(() => {
@@ -76,7 +83,6 @@ function CustomersPages() {
    * @return {undefined} This function does not return a value.
    */
   function handleSearch({ currentTarget }) {
-    console.log(currentTarget.value);
     setSearch(currentTarget.value);
     setCurrentPage(1);
   }
@@ -101,25 +107,38 @@ function CustomersPages() {
   return (
     <main className="vh-100" style={{ backgroundColor: "#9A616D" }}>
       <div className="container  ">
-        <h1 className="text-center p-5 text-white">Customers : </h1>
-
-        <div className="input-group mb-4 ">
-          <div className="form-floating ">
-            <input
-              id="search"
-              type="text"
-              name="search"
-              className="form-control"
-              placeholder="john doe"
-              value={search}
-              onChange={handleSearch}
-            />
-            <label htmlFor="search">Search</label>
-          </div>
-          <button type="button" className="btn btn-primary">
-            <i className="fas fa-search"></i>
-          </button>
+        <div className="row d-flex justify-content-center ">
+          <h1 className="text-center p-5 text-white">Customers : </h1>
         </div>
+
+        <div className="row d-flex justify-content-space-evenly ">
+          <div className="col input-group mb-4 w-50 mx-0 p-4">
+            <div className="form-floating  ">
+              <input
+                id="search"
+                type="text"
+                name="search"
+                className="form-control"
+                placeholder="john doe"
+                value={search}
+                onChange={handleSearch}
+              />
+              <label htmlFor="search">Search</label>
+            </div>
+            <button type="button" className="btn btn-info">
+              <i className="fas fa-search"></i>
+            </button>
+          </div>
+          <div className="col mb-4 d-flex justify-content-end align-items-center">
+            <Link to="/customers/new" className="btn btn-primary">
+              <i
+                className="fas fa-user-plus "
+                style={{ fontSize: "20px", color: "aquamarine" }}
+              ></i>
+            </Link>
+          </div>
+        </div>
+
         <table className="table table-striped bg-light table-hover table-bordered text-center">
           <thead>
             <tr className="text-center table-header text-bold ">
@@ -154,15 +173,19 @@ function CustomersPages() {
                     </span>
                   </td>
                   <td className="justify-content-start">
-                    {/* <button className="btn btn-info m-1">Voir</button>
-                <button className="btn btn-warning m-1">Modifier</button> */}
+                    <button
+                      className="btn btn-warning m-1 custom-tooltip  data-bs-toggle='tooltip' data-bs-placement='top'"
+                      onClick={() => handleEdit(customer.id)}
+                    >
+                      Update
+                    </button>
                     <button
                       className="btn btn-danger custom-tooltip  data-bs-toggle='tooltip' data-bs-placement='top' title='Cliquez ici pour en savoir plus'"
                       onClick={() => handleDelete(customer.id)}
                       disabled={customer.invoices.length > 0}
                       title={`${customer.invoices.length} && this customer has invoices `}
                     >
-                      Supprimer
+                      Delete
                     </button>
                   </td>
                 </tr>
@@ -186,4 +209,4 @@ function CustomersPages() {
   );
 }
 
-export default CustomersPages;
+export default CustomersPage;

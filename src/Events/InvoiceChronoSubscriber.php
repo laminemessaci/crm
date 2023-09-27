@@ -4,7 +4,6 @@ namespace App\Events;
 
 use App\Entity\Invoice;
 use App\Repository\InvoiceRepository;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use ApiPlatform\Symfony\EventListener\EventPriorities;
@@ -14,12 +13,18 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class InvoiceChronoSubscriber implements EventSubscriberInterface
 {
 
-    private $security;
+    private $tokenStorage;
     private $repository;
 
-    public function __construct(Security $security, InvoiceRepository $repository)
+    /**
+     * Create a new instance of the class.
+     *
+     * @param TokenStorageInterface $tokenStorage The token storage interface.
+     * @param InvoiceRepository $repository The invoice repository.
+     */
+    public function __construct(TokenStorageInterface $tokenStorage, InvoiceRepository $repository)
     {
-        $this->security = $security;
+        $this->tokenStorage = $tokenStorage;
         $this->repository = $repository;
     }
 
@@ -37,13 +42,13 @@ class InvoiceChronoSubscriber implements EventSubscriberInterface
         ];
     }
 
-/**
- * Sets the chrono for an invoice.
- *
- * @param ViewEvent $event The view event.
- * @throws \Exception If an error occurs.
- * @return void
- */
+    /**
+     * Sets the chrono for an invoice.
+     *
+     * @param ViewEvent $event The view event.
+     * @throws \Exception If an error occurs.
+     * @return void
+     */
     public function setChronoForInvoice(ViewEvent $event): void
     {
         try {
@@ -54,7 +59,7 @@ class InvoiceChronoSubscriber implements EventSubscriberInterface
         }
 
         if ($invoice instanceof Invoice && $requestMethod === "POST") {
-            $nextChrono = $this->repository->findNextChrono($this->security->getUser());
+            $nextChrono = $this->repository->findNextChrono($this->tokenStorage->getToken()->getUser());
             $invoice->setChrono($nextChrono);
         }
     }

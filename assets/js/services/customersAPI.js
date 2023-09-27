@@ -17,21 +17,17 @@ async function findAll() {
   });
 }
 
-function deleteCustomer(customerId) {
-  return axios
-    .delete(CUSTOMERS_API + "/" + customerId)
-    .then(async (response) => {
-      const cachedCustomers = await Cache.get("customers");
-
-      if (cachedCustomers) {
-        Cache.set(
-          "customers",
-          cachedCustomers.filter((c) => c.id !== customerId)
-        );
-      }
-
-      return response;
-    });
+async function deleteCustomer(customerId) {
+  const response = await axios
+    .delete(CUSTOMERS_API + "/" + customerId);
+  const cachedCustomers = await Cache.get("customers");
+  if (cachedCustomers) {
+    Cache.set(
+      "customers",
+      cachedCustomers.filter((c) => c.id !== customerId)
+    );
+  }
+  return await response;
 }
 
 async function findCustumer(customerId) {
@@ -49,29 +45,23 @@ async function findCustumer(customerId) {
   });
 }
 
-function updateCustomer(customerId, customer) {
-  return axios
-    .put(CUSTOMERS_API + "/" + customerId, customer)
-    .then(async (response) => {
-      const cachedCustomers = await Cache.get("customers");
-      const cachedCustomer = await Cache.get("customers." + customerId);
-
-      if (cachedCustomer) {
-        Cache.set("customers." + customerId, response.data);
-      }
-
-      if (cachedCustomers) {
-        cachedCustomers[
-          cachedCustomers.findIndex((c) => c.id === +customerId)
-        ] = response.data;
-        Cache.set("customers", cachedCustomers);
-      }
-
-      return response;
-    });
+async function updateCustomer(customerId, customer) {
+  const response = await axios
+    .put(CUSTOMERS_API + "/" + customerId, customer);
+  const cachedCustomers = await Cache.get("customers");
+  const cachedCustomer = await Cache.get("customers." + customerId);
+  if (cachedCustomer) {
+    Cache.set("customers." + customerId, response.data);
+  }
+  if (cachedCustomers) {
+    cachedCustomers[cachedCustomers.findIndex((c) => c.id === +customerId)] = response.data;
+    Cache.set("customers", cachedCustomers);
+  }
+  return await response;
 }
 
-function createCustomer(customer) {
+async function createCustomer(customer) {
+  console.log('createCustomer', customer)
   return axios.post(CUSTOMERS_API, customer).then(async (response) => {
     const cachedCustomers = await Cache.get("customers");
 

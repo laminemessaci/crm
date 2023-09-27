@@ -15,7 +15,7 @@ import HomePage from "./js/pages/HomePage.jsx";
 import Layout from "./js/components/Layout.jsx";
 import Login from "./js/pages/Login.jsx";
 import Loader from "./js/components/Loaders/Loader.jsx";
-import CustomersPages from "./js/pages/customer/CustomersPages.jsx";
+
 import AuthContext from "./js/contexts/AuthContext.js";
 import authAPI from "./js/services/authAPI.js";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,6 +28,8 @@ import UserSettings from "./js/pages/user/UserSettings.jsx";
 import RequireAuth from "./js/components/navigation/RequireAuth.js";
 import { ROLES } from "./js/config.js";
 import ErrorPage from "./js/pages/Error404/ErrorPage.jsx";
+import CustomerPage from "./js/pages/customer/customerPage.jsx";
+import CustomersPage from "./js/pages/customer/CustomersPage.jsx";
 // import "./animations.js";
 
 authAPI.setup();
@@ -64,7 +66,8 @@ const App = () => {
             <Route
               element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.User]} />}
             >
-              <Route path="/customers" element={<CustomersPages />} />
+              <Route path="/customers" element={<CustomersPage />} />
+              <Route path="/customers/:id" element={<CustomerPage />} />
               <Route path="/invoices" element={<InvoicesPages />} />
               <Route path="/user-profile" element={<UserPages />} />
               <Route path="/user-settings" element={<UserSettings />} />

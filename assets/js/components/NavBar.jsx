@@ -7,8 +7,12 @@ import authAPI from "../services/authAPI.js";
 import useAuth from "../services/hooks/useAuth.js";
 
 function Navbar() {
-  const { isAuthenticated, setIsAuthenticated, customersLength } =
-    useContext(AuthContext);
+  const {
+    isAuthenticated,
+    setIsAuthenticated,
+    customersLength,
+    setCustomersLength,
+  } = useContext(AuthContext);
   const { username, firstname, lastname, status, isAdmin, roles } = useAuth();
 
   const navigate = useNavigate();
@@ -16,6 +20,7 @@ function Navbar() {
   function handleLogout() {
     authAPI.logout();
     setIsAuthenticated(false);
+    setCustomersLength(null);
     toast.info("Vous êtes désormais déconnecté");
   }
   return (

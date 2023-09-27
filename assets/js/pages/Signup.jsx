@@ -40,6 +40,7 @@ function Signup(props) {
       setErrors(apiErrors);
       return;
     }
+    console.log('user', user)
 
     try {
       await usersAPI.register(user);

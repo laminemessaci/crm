@@ -61,7 +61,7 @@ async function updateCustomer(customerId, customer) {
 }
 
 async function createCustomer(customer) {
-  console.log('createCustomer', customer)
+  
   return axios.post(CUSTOMERS_API, customer).then(async (response) => {
     const cachedCustomers = await Cache.get("customers");
 

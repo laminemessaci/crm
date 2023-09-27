@@ -3,6 +3,8 @@ import jwtDecode from "jwt-decode";
 import { LOGIN_API } from "../config";
 import { toast } from "react-toastify";
 import Cache from "./cache.js";
+import { useContext } from "react";
+import AuthContext from "../contexts/AuthContext.js";
 
 /**
  * Authenticates the user using the provided credentials.
@@ -33,9 +35,11 @@ function setAxiosToken(token) {
  * @return {void} No return value.
  */
 function logout() {
+
   window.localStorage.removeItem("authToken");
   delete axios.defaults.headers["Authorization"];
   Cache.remove("customers");
+
 
   // toast.success("You have been logged out");
 }

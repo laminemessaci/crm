@@ -97,24 +97,22 @@ function Navbar() {
                   <Link className="nav-link" to="/login">
                     <div>
                       <i className="fas fa-user fa-lg mb-1"></i>
-                      <span className="badge rounded-pill badge-notification bg-info">
-                        11
-                      </span>
+                      <span className="badge rounded-pill badge-notification bg-info"></span>
                     </div>
                     Login
                   </Link>
                 </li>
-                <li className="nav-item text-center mx-2 mx-lg-1">
+                {/* <li className="nav-item text-center mx-2 mx-lg-1">
                   <Link className="nav-link" to="/sign-up">
                     <div>
                       <i className="fas fa-user-plus fa-lg mb-1"></i>
                       <span className="badge rounded-pill badge-notification bg-success">
-                        11
+                        
                       </span>
                     </div>
                     SignUp
                   </Link>
-                </li>
+                </li> */}
               </>
             )) || (
               <>

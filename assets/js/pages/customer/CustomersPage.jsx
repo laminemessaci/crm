@@ -12,7 +12,7 @@ import { async } from "regenerator-runtime";
 const itemsPerPage = 10;
 function CustomersPage() {
   // const { username, status, isAdmin, firstname, lastname } = useAuth();
-  const { customersLength, setCustomersLength } = useContext(AuthContext);
+  const { setCustomersLength } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [customers, setCustomers] = useState([]);

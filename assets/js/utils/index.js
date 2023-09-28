@@ -1,4 +1,21 @@
-export const errosPageAnimation = () => {
+import moment from "moment/moment.js";
+
+/**
+ * Formats a given string into a date with the format "DD/MM/YYYY".
+ *
+ * @param {string} str - The string to be formatted into a date.
+ * @return {string} The formatted date in the format "DD/MM/YYYY".
+ */
+export function formatDate(str) {
+  return moment(str).format("DD/MM/YYYY");
+}
+
+/**
+ * Generates an animation for the error page.
+ *
+ * @return {void} This function does not return a value.
+ */
+export const errorsPageAnimation = () => {
   var loop1,
     loop2,
     loop3,

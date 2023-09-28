@@ -5,4 +5,6 @@ export default createContext({
   setIsAuthenticated: (value) => {},
   customersLength: 0,
   setCustomersLength: (value) => {},
+  invoicesLength: 0,
+  setInvoicesLength: (value) => {},
 });

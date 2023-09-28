@@ -11,7 +11,9 @@ function Navbar() {
     isAuthenticated,
     setIsAuthenticated,
     customersLength,
+    invoicesLength,
     setCustomersLength,
+    setInvoicesLength,
   } = useContext(AuthContext);
   const { username, firstname, lastname, status, isAdmin, roles } = useAuth();
 
@@ -21,6 +23,7 @@ function Navbar() {
     authAPI.logout();
     setIsAuthenticated(false);
     setCustomersLength(null);
+    setInvoicesLength(null);
     toast.info("Vous êtes désormais déconnecté");
   }
   return (
@@ -69,7 +72,7 @@ function Navbar() {
                 <div>
                   <i className="fa-solid fa-file-invoice fa-lg mb-1"></i>
                   <span className="badge rounded-pill badge-notification bg-warning">
-                    11
+                    {invoicesLength}
                   </span>
                 </div>
                 Invoices

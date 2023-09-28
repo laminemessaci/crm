@@ -1,7 +1,7 @@
 import React from "react";
 
 function InvoicesPages() {
-  return <div>InvoicesPages</div>;
+  return <div>InvoicePages</div>;
 }
 
 export default InvoicesPages;

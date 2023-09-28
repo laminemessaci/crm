@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import "./style.css";
-import { errosPageAnimation } from "../../utils/index.js";
+import { errorsPageAnimation } from "../../utils/index.js";
 
 const ErrorPage = () => {
   useEffect(() => {
-    errosPageAnimation();
+    errorsPageAnimation();
   }, []);
 
   return (

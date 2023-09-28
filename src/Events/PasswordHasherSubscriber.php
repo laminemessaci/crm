@@ -24,6 +24,11 @@ class PasswordHasherSubscriber implements EventSubscriberInterface
         $this->hasher = $hasher;
     }
 
+    /**
+     * Retrieves the list of subscribed events for the class.
+     *
+     * @return mixed The list of subscribed events.
+     */
     public static function getSubscribedEvents()
     {
         return [

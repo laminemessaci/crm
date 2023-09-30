@@ -2,10 +2,10 @@ import React from "react";
 
 const HomePage = () => {
   return (
-    <section className="vh-100" style={{ backgroundColor: "#9A616D" }}>
-      <div className="jumbotron">
+    <main className="vh-100" style={{ backgroundColor: "#9A616D" }}>
+      <div className="jumbotron p-5">
         <div className="container">
-          <h1 className="display-4 text-center text-bold ">FACT</h1>
+          <h1 className="display-4 text-center text-bold">FACT</h1>
           <h2 className="display-6 text-center text-bold ">
             Welcome to our Invoice Management System!
           </h2>
@@ -35,7 +35,7 @@ const HomePage = () => {
           © 2023 FACT. Tous droits réservés.
         </div>
       </footer>
-    </section>
+    </main>
   );
 };
 

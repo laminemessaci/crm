@@ -3,7 +3,7 @@ import TableLoader from "../../components/Loaders/TableLoader.jsx";
 import invoicesAPI from "../../services/invoicesAPI.js";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Pagination from "../../components/Pagination.jsx";
-import NoInvoicesPage from "../NoInvoicesPage.jsx";
+import NoInvoicesPage from "../NoFieldPage.jsx";
 import { toast } from "react-toastify";
 import AuthContext from "../../contexts/AuthContext.js";
 
@@ -67,7 +67,6 @@ function InvoicesPage(props) {
     try {
       await invoicesAPI.delete(customerId);
       toast.success("Invoice deleted successfully");
-    
     } catch (error) {
       toast.error("Unable to delete invoice");
       setInvoices(originalInvoices);
@@ -129,7 +128,9 @@ function InvoicesPage(props) {
     <main className="vh-100" style={{ backgroundColor: "#9A616D" }}>
       <div className="container  ">
         <div className="row d-flex justify-content-center ">
-          <h1 className="text-center p-5 text-white">Invoices List : </h1>
+          <h1 className="text-center p-5  display-5 text-white">
+            Invoices List :{" "}
+          </h1>
         </div>
 
         <div className="row d-flex justify-content-space-evenly ">

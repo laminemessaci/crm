@@ -1,6 +1,6 @@
 import React from "react";
 
-function NoInvoicesPage() {
+function NoFieldPage({ type }) {
   return (
     <section
       className="vh-100 d-flex align-items-center"
@@ -9,10 +9,10 @@ function NoInvoicesPage() {
       <div className="container d-flex  justify-content-center p-5">
         <div className="card text-center">
           <div className="card-body">
-            <h5 className="card-title">There is no invoices for this user</h5>
-            <p className="card-text">You can create a new invoice</p>
+            <h5 className="card-title">There is no {type} </h5>
+            <p className="card-text">You can create a new {type}</p>
             <a href="" className="btn btn-primary">
-              Créer une nouvelle facture
+              Create a {type}
             </a>
           </div>
         </div>
@@ -21,4 +21,4 @@ function NoInvoicesPage() {
   );
 }
 
-export default NoInvoicesPage;
+export default NoFieldPage;

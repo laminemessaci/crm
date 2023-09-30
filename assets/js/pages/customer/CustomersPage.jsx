@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import CustomersAPI from "../../services/customersAPI.js";
 import { toast } from "react-toastify";
 import TableLoader from "../../components/Loaders/TableLoader.jsx";
-import NoInvoicesPage from "../NoInvoicesPage.jsx";
+import NoInvoicesPage from "../NoFieldPage.jsx";
 import useAuth from "../../services/hooks/useAuth.js";
 import Pagination from "../../components/Pagination.jsx";
 import AuthContext from "../../contexts/AuthContext.js";
 import { Link, useNavigate } from "react-router-dom";
 import DialogModal from "../../components/DialogModal.jsx";
+import NoFieldPage from "../NoFieldPage.jsx";
 
 const itemsPerPage = 10;
 function CustomersPage() {
@@ -108,14 +109,16 @@ function CustomersPage() {
   );
 
   if (!customers) {
-    return <NoInvoicesPage />;
+    return <NoFieldPage type={"Customer"} />;
   }
 
   return (
     <main className="vh-100" style={{ backgroundColor: "#9A616D" }}>
       <div className="container  ">
         <div className="row d-flex justify-content-center ">
-          <h1 className="text-center p-5 text-white">Customers : </h1>
+          <h1 className="text-center p-5 display-5 text-white">
+            Customers List :{" "}
+          </h1>
         </div>
 
         <div className="row d-flex justify-content-space-evenly ">

@@ -13,15 +13,23 @@ const useAuth = () => {
     const authToken = window.localStorage.getItem("authToken");
     const decoded = jwtDecode(authToken);
 
-    const { username, roles, firstname, lastname } = decoded;
-  
+    const { username, roles, firstname, lastname, totalTransactions } = decoded;
+
     //     console.log("decoded", decoded.UserInfo);
 
     isAdmin = roles.includes("USER_ADMIN");
 
     if (isAdmin) status = "Admin";
 
-    return { username, roles, status, isAdmin, firstname, lastname };
+    return {
+      username,
+      roles,
+      status,
+      isAdmin,
+      firstname,
+      lastname,
+      totalTransactions,
+    };
   }
 
   return {
@@ -31,6 +39,7 @@ const useAuth = () => {
     status,
     firstname: "",
     lastname: "",
+    totalTransactions: 0,
   };
 };
 export default useAuth;

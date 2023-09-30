@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import CustomersAPI from "../../services/customersAPI.js";
 import { toast } from "react-toastify";
 import TableLoader from "../../components/Loaders/TableLoader.jsx";
-import NoInvoicesPage from "../NoFieldPage.jsx";
 import useAuth from "../../services/hooks/useAuth.js";
 import Pagination from "../../components/Pagination.jsx";
 import AuthContext from "../../contexts/AuthContext.js";
@@ -38,9 +37,7 @@ function CustomersPage() {
       setCustomers(data);
       setCustomersLength(data.length);
       setLoading(false);
-      customers.length === 0
-        ? null
-        : toast.success("Customers fetched successfully");
+      toast.success("Customers fetched successfully");
     } catch (error) {
       console.log(error);
       //toast.error("Unable to fetch customers");

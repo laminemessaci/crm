@@ -21,17 +21,18 @@ import authAPI from "./js/services/authAPI.js";
 import "react-toastify/dist/ReactToastify.css";
 import Signup from "./js/pages/Signup.jsx";
 import Navbar from "./js/components/NavBar.jsx";
-import UserPages from "./js/pages/user/UserPages.jsx";
 import PrivateRoute from "./js/components/navigation/PrivateRoute.jsx";
 
 import UserSettings from "./js/pages/user/UserSettings.jsx";
 import RequireAuth from "./js/components/navigation/RequireAuth.js";
 import { ROLES } from "./js/config.js";
 import ErrorPage from "./js/pages/Error404/ErrorPage.jsx";
-import CustomerPage from "./js/pages/customer/customerPage.jsx";
 import CustomersPage from "./js/pages/customer/CustomersPage.jsx";
 import InvoicesPage from "./js/pages/invoice/InvoicesPage.jsx";
 import InvoicePage from "./js/pages/invoice/InvoicePage.jsx";
+import CustomerPage from "./js/pages/customer/CustomerPage.jsx";
+import UserPage from "./js/pages/user/UserPage.jsx";
+import Prefetch from "./js/contexts/Prefetch.js";
 
 // import "./animations.js";
 
@@ -67,17 +68,20 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<Signup />} />
-
-          <Route element={<PrivateRoute />}>
-            <Route
-              element={<RequireAuth allowedRoles={[ROLES.Admin, ROLES.User]} />}
-            >
-              <Route path="/customers" element={<CustomersPage />} />
-              <Route path="/customers/:id" element={<CustomerPage />} />
-              <Route path="/invoices" element={<InvoicesPage />} />
-              <Route path="/invoices/:id" element={<InvoicePage />} />
-              <Route path="/user-profile" element={<UserPages />} />
-              <Route path="/user-settings" element={<UserSettings />} />
+          <Route element={<Prefetch />}>
+            <Route element={<PrivateRoute />}>
+              <Route
+                element={
+                  <RequireAuth allowedRoles={[ROLES.Admin, ROLES.User]} />
+                }
+              >
+                <Route path="/customers" element={<CustomersPage />} />
+                <Route path="/customers/:id" element={<CustomerPage />} />
+                <Route path="/invoices" element={<InvoicesPage />} />
+                <Route path="/invoices/:id" element={<InvoicePage />} />
+                <Route path="/user-profile" element={<UserPage />} />
+                <Route path="/user-settings" element={<UserSettings />} />
+              </Route>
             </Route>
           </Route>
 

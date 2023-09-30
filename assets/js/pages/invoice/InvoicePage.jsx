@@ -82,6 +82,7 @@ function InvoicePage() {
         await invoicesAPI.update(id, invoice);
         toast.success("Invoice updated successfully");
         cache.remove("invoices");
+        cache.remove("customers");
         navigate("/invoices");
       } catch (error) {
         toast.error("Unable to update invoice");
@@ -93,6 +94,7 @@ function InvoicePage() {
         navigate("/invoices");
         toast.success("Invoice created successfully");
         cache.remove("invoices");
+        cache.remove("customers");
       } catch ({ response }) {
         const { violations } = response.data;
         if (violations) {

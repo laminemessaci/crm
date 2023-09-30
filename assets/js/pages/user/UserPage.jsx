@@ -1,6 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
+import AuthContext from "../../contexts/AuthContext.js";
+import useAuth from "../../services/hooks/useAuth.js";
 
-function UserPages({ userInfos }) {
+function UserPage() {
+  const {
+    isAuthenticated,
+    setIsAuthenticated,
+    customersLength,
+    invoicesLength,
+    setCustomersLength,
+    setInvoicesLength,
+  } = useContext(AuthContext);
+  const {
+    username,
+    firstname,
+    lastname,
+    status,
+    isAdmin,
+    roles,
+    totalTransactions,
+  } = useAuth();
+  console.log(useAuth());
+
   return (
     <section className="vh-100" style={{ backgroundColor: "#9A616D" }}>
       <div className="container py-5 h-100">
@@ -15,10 +36,12 @@ function UserPages({ userInfos }) {
                     style={{ width: 100 }}
                   />
                 </div>
-                <h4 className="mb-2">Julie L. Arsenault</h4>
+                <h4 className="mb-2">
+                  {lastname} {firstname}
+                </h4>
                 <p className="text-muted mb-4">
-                  @Campany <span className="mx-2">|</span>{" "}
-                  <a href="#!">mdbootstrap.com</a>
+                  @FACT <span className="mx-2">|</span>{" "}
+                  <a href="#!">{username}</a>
                 </p>
                 <div className="mb-4 pb-2">
                   <button
@@ -48,15 +71,15 @@ function UserPages({ userInfos }) {
                 </button>
                 <div className="d-flex justify-content-between text-center mt-5 mb-2">
                   <div>
-                    <p className="mb-2 h5">8471</p>
-                    <p className="text-muted mb-0">Wallets Balance</p>
+                    <p className="mb-2 h5">{customersLength}</p>
+                    <p className="text-muted mb-0">Customers</p>
                   </div>
                   <div className="px-3">
-                    <p className="mb-2 h5">8512</p>
-                    <p className="text-muted mb-0">Income amounts</p>
+                    <p className="mb-2 h5">{invoicesLength}</p>
+                    <p className="text-muted mb-0">Invoices </p>
                   </div>
                   <div>
-                    <p className="mb-2 h5">4751</p>
+                    <p className="mb-2 h5">{totalTransactions} €</p>
                     <p className="text-muted mb-0">Total Transactions</p>
                   </div>
                 </div>
@@ -69,4 +92,4 @@ function UserPages({ userInfos }) {
   );
 }
 
-export default UserPages;
+export default UserPage;

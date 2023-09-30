@@ -15,11 +15,12 @@ class JwtCreatedSubscriber
     public function updateJwtData(JWTCreatedEvent $event)
     {
         $user = $event->getUser();
-
         if ($user instanceof User) {
             $data = $event->getData();
             $data["firstname"] = $user->getFirstName();
             $data["lastname"] = $user->getLastName();
+            $data["totalTransactions"] = $user->getTotalTransactions();
+
             $event->setData($data);
         }
     }

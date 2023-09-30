@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -17,7 +17,7 @@ function Navbar() {
   } = useContext(AuthContext);
   const { username, firstname, lastname, status, isAdmin, roles } = useAuth();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   function handleLogout() {
     authAPI.logout();
@@ -26,6 +26,8 @@ function Navbar() {
     setInvoicesLength(null);
     toast.info("Vous êtes désormais déconnecté");
   }
+
+  useEffect(() => {}, [customersLength, invoicesLength]);
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
@@ -102,17 +104,6 @@ function Navbar() {
                     Login
                   </Link>
                 </li>
-                {/* <li className="nav-item text-center mx-2 mx-lg-1">
-                  <Link className="nav-link" to="/sign-up">
-                    <div>
-                      <i className="fas fa-user-plus fa-lg mb-1"></i>
-                      <span className="badge rounded-pill badge-notification bg-success">
-                        
-                      </span>
-                    </div>
-                    SignUp
-                  </Link>
-                </li> */}
               </>
             )) || (
               <>

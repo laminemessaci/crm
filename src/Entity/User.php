@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use ApiPlatform\Metadata\ApiResource;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -59,6 +60,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Customer::class)]
     private Collection $customers;
+
+
+    #[ORM\Column(type: Types::FLOAT, nullable: true, precision: 10, scale: 2)]
+    #[Groups(["customers_read", "invoices_read", "users_read"])]
+    private ?float $totalTransactions = 0;
+
+
 
     public function __construct()
     {
@@ -129,6 +137,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
+
+
     public function setPassword(string $password): static
     {
         $this->password = $password;
@@ -177,6 +187,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->customers;
     }
 
+
+    /**
+     * Adds a customer to the user's list of customers and sets the user as the customer's user.
+     *
+     * @param Customer $customer The customer to be added.
+     * @return static The updated user object.
+     */
     public function addCustomer(Customer $customer): static
     {
         if (!$this->customers->contains($customer)) {
@@ -186,6 +203,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+
+    /**
+     * Calculate total amount for all customers
+     *
+     * @return float
+     */
+    #[Groups(["users_read"])]
+    public function getTotalTransactions(): float
+    {
+        $total =  array_reduce($this->customers->toArray(), function ($total, $customer) {
+            return $total + $customer->getTotalAmount();
+        }, 0);
+
+        $this->totalTransactions = $total;
+        return $this->totalTransactions;
+    }
+
 
     public function removeCustomer(Customer $customer): static
     {

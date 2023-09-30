@@ -31,7 +31,8 @@ import ErrorPage from "./js/pages/Error404/ErrorPage.jsx";
 import CustomerPage from "./js/pages/customer/customerPage.jsx";
 import CustomersPage from "./js/pages/customer/CustomersPage.jsx";
 import InvoicesPage from "./js/pages/invoice/InvoicesPage.jsx";
-import InvoicesPages from "./js/pages/invoice/InvoicePage.jsx";
+import InvoicePage from "./js/pages/invoice/InvoicePage.jsx";
+
 // import "./animations.js";
 
 authAPI.setup();
@@ -74,7 +75,7 @@ const App = () => {
               <Route path="/customers" element={<CustomersPage />} />
               <Route path="/customers/:id" element={<CustomerPage />} />
               <Route path="/invoices" element={<InvoicesPage />} />
-              <Route path="/invoices/:id" element={<InvoicesPages />} />
+              <Route path="/invoices/:id" element={<InvoicePage />} />
               <Route path="/user-profile" element={<UserPages />} />
               <Route path="/user-settings" element={<UserSettings />} />
             </Route>

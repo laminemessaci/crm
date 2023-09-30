@@ -54,6 +54,7 @@ class CustomerUserSubscriber implements EventSubscriberInterface
         $controllerResult = $event->getControllerResult();
         $requestMethod = $event->getRequest()->getMethod();
 
+
         if ($controllerResult instanceof Customer && ($requestMethod === "PUT" || $requestMethod === "POST")) {
             $user = $this->tokenStorage->getToken()->getUser();
             $controllerResult->setUser($user);

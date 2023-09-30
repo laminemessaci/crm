@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import TableLoader from "../../components/Loaders/TableLoader.jsx";
 import invoicesAPI from "../../services/invoicesAPI.js";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Pagination from "../../components/Pagination.jsx";
 import NoInvoicesPage from "../NoInvoicesPage.jsx";
 import { toast } from "react-toastify";
 import AuthContext from "../../contexts/AuthContext.js";
 
 import { formatDate } from "../../utils/index.js";
+import DialogModal from "../../components/DialogModal.jsx";
 
 const itemsPerPage = 10;
 
@@ -24,11 +25,17 @@ function InvoicesPage(props) {
   };
   const { setInvoicesLength } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const [currentPage, setCurrentPage] = useState(1);
+
   const [search, setSearch] = useState("");
+
+  const [invoiceIdToDelete, setInvoiceIdToDelete] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   async function fetchInvoices() {
     try {
@@ -56,7 +63,7 @@ function InvoicesPage(props) {
    */
   async function handleDelete(customerId) {
     const originalInvoices = [...invoices];
-    setInvoices(L.filter((invoice) => invoice.id !== customerId));
+    setInvoices(invoices.filter((invoice) => invoice.id !== customerId));
     try {
       await invoicesAPI.delete(customerId);
       toast.success("Invoice deleted successfully");
@@ -67,13 +74,18 @@ function InvoicesPage(props) {
     }
   }
 
+  async function handleConfirmDelete() {
+    await handleDelete(invoiceIdToDelete);
+    setInvoiceIdToDelete(null);
+  }
+
   async function handleEdit(invoiceId) {
     navigate("/invoices/" + invoiceId);
   }
 
   useEffect(() => {
     fetchInvoices();
-  }, []);
+  }, [location]);
 
   /**
    * Handles the page change event.
@@ -193,7 +205,12 @@ function InvoicesPage(props) {
                     </button>
                     <button
                       className="btn btn-danger m-1"
-                      onClick={() => handleDelete(invoice.id)}
+                      data-bs-toggle="modal"
+                      data-bs-target="#confirmationModal"
+                      data-invoice-id={invoice.id}
+                      onClick={() => {
+                        setInvoiceIdToDelete(invoice.id);
+                      }}
                     >
                       Delete
                     </button>
@@ -215,6 +232,14 @@ function InvoicesPage(props) {
           )}
         </div>
       </div>
+
+      <DialogModal
+        idToDelete={invoiceIdToDelete}
+        handleConfirmDelete={handleConfirmDelete}
+        setShowModal={setShowModal}
+        title={"Delete Invoice"}
+        content={"Are you sure you want to delete this invoice ?"}
+      />
     </main>
   );
 }

@@ -25,13 +25,16 @@ async function deleteInvoice(invoiceId) {
 }
 
 async function updateInvoice(invoiceId, invoice) {
-  return axios.put(INVOICES_API + "/" + invoiceId, {
+  invoice.amount = Number(invoice.amount);
+  const response = await axios.put(INVOICES_API + "/" + invoiceId, {
     ...invoice,
     customer: `/api/customers/${invoice.customer}`,
   });
+  return response;
 }
 
 async function createInvoice(invoice) {
+  invoice.amount = Number(invoice.amount);
   return axios.post(INVOICES_API, {
     ...invoice,
     customer: `/api/customers/${invoice.customer}`,

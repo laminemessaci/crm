@@ -26,6 +26,7 @@ class InvoiceSentAtSubscriber implements EventSubscriberInterface
      */
     public function setSentAtForInvoice(ViewEvent $event): void
     {
+
         try {
             $invoice = $event->getControllerResult();
             $requestMethod = $event->getRequest()->getMethod();
@@ -33,7 +34,7 @@ class InvoiceSentAtSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if ($invoice instanceof Invoice && $requestMethod === "POST" && !$invoice->getSentAt()) {
+        if ($invoice instanceof Invoice && ($requestMethod === "PUT" || $requestMethod === "POST") && !$invoice->getSentAt()) {
             $invoice->setSentAt(new \DateTime());
         }
     }

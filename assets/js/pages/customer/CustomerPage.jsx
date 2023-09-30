@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { async } from "regenerator-runtime";
 import Field from "../../components/forms/Field.jsx";
 import customersAPI from "../../services/customersAPI.js";
@@ -14,6 +14,7 @@ const initialState = {
 function CustomerPage() {
   const { id = "new" } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [customer, setCustomer] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
@@ -31,12 +32,11 @@ function CustomerPage() {
   }
 
   useEffect(() => {
-    console.log("editing", editing);
     if (id !== "new") {
       setEditing(true);
       fetchCustomers(id);
     }
-  }, [id, navigate]);
+  }, [id, location]);
 
   /**
    * Handles the form submission event.
@@ -60,7 +60,15 @@ function CustomerPage() {
         navigate("/customers");
         toast.success("Customer created successfully");
       } catch (error) {
-        toast.error("Unable to create customer");
+        const { violations } = response.data;
+        if (violations) {
+          const apiErrors = {};
+          violations.forEach(({ propertyPath, message }) => {
+            apiErrors[propertyPath] = message;
+          });
+          setErrors(apiErrors);
+        }
+        toast.error("Unable to create customer : ", error);
       }
     }
   }

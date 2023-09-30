@@ -8,6 +8,7 @@ import Pagination from "../../components/Pagination.jsx";
 import AuthContext from "../../contexts/AuthContext.js";
 import { Link, useNavigate } from "react-router-dom";
 import { async } from "regenerator-runtime";
+import DialogModal from "../../components/DialogModal.jsx";
 
 const itemsPerPage = 10;
 function CustomersPage() {
@@ -19,6 +20,14 @@ function CustomersPage() {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
+
+  const [customerIdToDelete, setCustomerIdToDelete] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  async function handleConfirmDelete() {
+    await handleDelete(customerIdToDelete);
+    setCustomerIdToDelete(null);
+  }
 
   async function fetchCustomers() {
     try {
@@ -174,14 +183,17 @@ function CustomersPage() {
                   </td>
                   <td className="justify-content-start">
                     <button
-                      className="btn btn-warning m-1 custom-tooltip  data-bs-toggle='tooltip' data-bs-placement='top'"
+                      className="btn btn-warning m-1 "
                       onClick={() => handleEdit(customer.id)}
                     >
                       Update
                     </button>
                     <button
-                      className="btn btn-danger custom-tooltip  data-bs-toggle='tooltip' data-bs-placement='top' title='Cliquez ici pour en savoir plus'"
-                      onClick={() => handleDelete(customer.id)}
+                      data-bs-toggle="modal"
+                      data-bs-target="#confirmationModal"
+                      data-customer-id={customer.id}
+                      className="btn btn-danger "
+                      onClick={() => setCustomerIdToDelete(customer.id)}
                       disabled={customer.invoices.length > 0}
                       title={`${customer.invoices.length} && this customer has invoices `}
                     >
@@ -205,6 +217,13 @@ function CustomersPage() {
           )}
         </div>
       </div>
+      <DialogModal
+        idToDelete={customerIdToDelete}
+        handleConfirmDelete={handleConfirmDelete}
+        setShowModal={setShowModal}
+        title={"Delete Customer"}
+        content={"Are you sure you want to delete this customer ?"}
+      />
     </main>
   );
 }

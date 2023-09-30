@@ -89,7 +89,7 @@ class Invoice
         return $this->amount;
     }
 
-    public function setAmount($amount): static
+    public function setAmount($amount): self
     {
 
         $this->amount =  $amount;
@@ -102,7 +102,7 @@ class Invoice
         return $this->sentAt;
     }
 
-    public function setSentAt(\DateTimeInterface $sentAt): static
+    public function setSentAt(\DateTimeInterface $sentAt): self
     {
         $this->sentAt = $sentAt;
 
@@ -114,7 +114,7 @@ class Invoice
         return $this->status;
     }
 
-    public function setStatus(string $status): static
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 
@@ -126,7 +126,7 @@ class Invoice
         return $this->customer;
     }
 
-    public function setCustomer(?Customer $customer): static
+    public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
 
@@ -138,7 +138,7 @@ class Invoice
         return $this->chrono;
     }
 
-    public function setChrono(int $chrono): static
+    public function setChrono(int $chrono): self
     {
         $this->chrono = $chrono;
 

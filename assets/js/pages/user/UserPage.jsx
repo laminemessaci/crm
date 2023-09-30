@@ -71,15 +71,27 @@ function UserPage() {
                 </button>
                 <div className="d-flex justify-content-between text-center mt-5 mb-2">
                   <div>
-                    <p className="mb-2 h5">{customersLength}</p>
+                    <p className="mb-2 h5">
+                      <span className="badge rounded-pill badge-notification bg-warning">
+                        {customersLength}
+                      </span>
+                    </p>
                     <p className="text-muted mb-0">Customers</p>
                   </div>
                   <div className="px-3">
-                    <p className="mb-2 h5">{invoicesLength}</p>
+                    <p className="mb-2 h5">
+                      <span className="badge rounded-pill badge-notification bg-warning">
+                        {invoicesLength}
+                      </span>
+                    </p>
                     <p className="text-muted mb-0">Invoices </p>
                   </div>
                   <div>
-                    <p className="mb-2 h5">{totalTransactions} €</p>
+                    <p className="mb-2 h5">
+                      <span className="badge rounded-pill badge-notification bg-warning">
+                        {totalTransactions} €
+                      </span>
+                    </p>
                     <p className="text-muted mb-0">Total Transactions</p>
                   </div>
                 </div>

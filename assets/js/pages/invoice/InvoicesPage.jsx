@@ -66,6 +66,7 @@ function InvoicesPage(props) {
     setInvoices(invoices.filter((invoice) => invoice.id !== customerId));
     try {
       await invoicesAPI.delete(customerId);
+      setInvoicesLength(originalInvoices.length - 1);
       toast.success("Invoice deleted successfully");
     } catch (error) {
       toast.error("Unable to delete invoice");

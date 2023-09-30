@@ -55,6 +55,7 @@ function CustomersPage() {
     setCustomers(customers.filter((customer) => customer.id !== customerId));
     try {
       await CustomersAPI.delete(customerId);
+      setCustomersLength(originalCustomers.length - 1);
       toast.success("Customer deleted successfully");
       // fetchCustomers();
       setCurrentPage(1);

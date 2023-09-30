@@ -7,7 +7,6 @@ import useAuth from "../../services/hooks/useAuth.js";
 import Pagination from "../../components/Pagination.jsx";
 import AuthContext from "../../contexts/AuthContext.js";
 import { Link, useNavigate } from "react-router-dom";
-import { async } from "regenerator-runtime";
 import DialogModal from "../../components/DialogModal.jsx";
 
 const itemsPerPage = 10;
@@ -66,7 +65,7 @@ function CustomersPage() {
     }
   }
 
-  async function handleEdit(customerId) {
+  function handleEdit(customerId) {
     navigate("/customers/" + customerId);
   }
 
@@ -81,7 +80,6 @@ function CustomersPage() {
    * @return {undefined} This function does not return a value.
    */
   function handlePageChange(page) {
-    console.log(page);
     setCurrentPage(page);
   }
 

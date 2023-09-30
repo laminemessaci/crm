@@ -59,7 +59,7 @@ function CustomerPage() {
         await customersAPI.create(customer);
         navigate("/customers");
         toast.success("Customer created successfully");
-      } catch (error) {
+      } catch ({ response }) {
         const { violations } = response.data;
         if (violations) {
           const apiErrors = {};
@@ -68,7 +68,7 @@ function CustomerPage() {
           });
           setErrors(apiErrors);
         }
-        toast.error("Unable to create customer : ", error);
+        toast.error(`Unable to create customer `);
       }
     }
   }

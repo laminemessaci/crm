@@ -57,6 +57,7 @@ function CustomersPage() {
       await CustomersAPI.delete(customerId);
       toast.success("Customer deleted successfully");
       // fetchCustomers();
+      setCurrentPage(1);
     } catch (error) {
       toast.error("Unable to delete customer");
       setCustomers(originalCustomers);

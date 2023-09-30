@@ -51,7 +51,16 @@ function CustomerPage() {
       try {
         await customersAPI.update(id, customer);
         toast.success("Customer updated successfully");
-      } catch (error) {
+        navigate("/customers");
+      } catch ({ response }) {
+        const { violations } = response.data;
+        if (violations) {
+          const apiErrors = {};
+          violations.forEach(({ propertyPath, message }) => {
+            apiErrors[propertyPath] = message;
+          });
+          setErrors(apiErrors);
+        }
         toast.error("Unable to update customer");
       }
     } else {

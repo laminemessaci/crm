@@ -20,7 +20,7 @@ function CustomerPage() {
   const [errors, setErrors] = useState(initialState);
   const [editing, setEditing] = useState(false);
 
-  async function fetchCustomers(customerId) {
+  async function fetchCustomer(customerId) {
     try {
       const { lastName, firstName, email, company } = await customersAPI.find(
         customerId
@@ -34,7 +34,7 @@ function CustomerPage() {
   useEffect(() => {
     if (id !== "new") {
       setEditing(true);
-      fetchCustomers(id);
+      fetchCustomer(id);
     }
   }, [id, location]);
 

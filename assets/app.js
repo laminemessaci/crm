@@ -31,8 +31,9 @@ import CustomersPage from "./js/pages/customer/CustomersPage.jsx";
 import InvoicesPage from "./js/pages/invoice/InvoicesPage.jsx";
 import InvoicePage from "./js/pages/invoice/InvoicePage.jsx";
 import CustomerPage from "./js/pages/customer/CustomerPage.jsx";
-import UserPage from "./js/pages/user/UserPage.jsx";
+import ProfilePage from "./js/pages/user/ProfilePage.jsx";
 import Prefetch from "./js/contexts/Prefetch.js";
+import UsersPage from "./js/pages/user/UsersPage.jsx";
 
 // import "./animations.js";
 
@@ -79,8 +80,15 @@ const App = () => {
                 <Route path="/customers/:id" element={<CustomerPage />} />
                 <Route path="/invoices" element={<InvoicesPage />} />
                 <Route path="/invoices/:id" element={<InvoicePage />} />
-                <Route path="/user-profile" element={<UserPage />} />
+                <Route path="/user-profile" element={<ProfilePage />} />
                 <Route path="/user-settings" element={<UserSettings />} />
+                <Route
+                  element={
+                    <RequireAuth allowedRoles={[ROLES.Admin, ROLES.User]} />
+                  }
+                >
+                  <Route path="/users" element={<UsersPage />} />
+                </Route>
               </Route>
             </Route>
           </Route>

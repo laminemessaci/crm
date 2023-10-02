@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import AuthContext from "../../contexts/AuthContext.js";
 import useAuth from "../../services/hooks/useAuth.js";
 
-function UserPage() {
+function ProfilePage() {
   const {
     isAuthenticated,
     setIsAuthenticated,
@@ -104,4 +104,4 @@ function UserPage() {
   );
 }
 
-export default UserPage;
+export default ProfilePage;

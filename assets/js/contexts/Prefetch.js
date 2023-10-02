@@ -14,9 +14,9 @@ const Prefetch = () => {
   async function fetchCustomers() {
     try {
       const data = await customersAPI.findAll();
-      if (data.length === 0) {
-        toast.error("No customers found");
-      }
+      // if (data.length === 0) {
+      //   toast.error("No customers found");
+      // }
       setCustomers(data);
       setCustomersLength(data.length);
     } catch (error) {
@@ -34,10 +34,13 @@ const Prefetch = () => {
       console.log(error);
     }
   }
+  const fetchAll = async () => {
+    await fetchCustomers();
+    await fetchInvoices();
+  };
 
   useEffect(() => {
-    fetchCustomers();
-    fetchInvoices();
+    fetchAll();
   }, []);
 
   return <Outlet />;

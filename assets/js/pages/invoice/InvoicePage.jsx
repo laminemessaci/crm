@@ -34,7 +34,7 @@ function InvoicePage() {
         setInvoice({ ...invoice, customer: data[0].id });
       }
     } catch (error) {
-      toast.error("Unable to fetch invoices");
+      toast.error("There are no customers to create invoice");
       navigate("/invoices");
     }
   }
@@ -81,20 +81,20 @@ function InvoicePage() {
       try {
         await invoicesAPI.update(id, invoice);
         toast.success("Invoice updated successfully");
-        cache.remove("invoices");
-        cache.remove("customers");
+        // cache.remove("invoices");
+        // cache.remove("customers");
         navigate("/invoices");
       } catch (error) {
         toast.error("Unable to update invoice");
-        // navigate("/invoices");
+        navigate("/invoices");
       }
     } else {
       try {
         await invoicesAPI.create(invoice);
-        navigate("/invoices");
         toast.success("Invoice created successfully");
-        cache.remove("invoices");
-        cache.remove("customers");
+        // cache.remove("invoices");
+        // cache.remove("customers");
+        navigate("/invoices");
       } catch ({ response }) {
         const { violations } = response.data;
         if (violations) {

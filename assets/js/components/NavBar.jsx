@@ -6,6 +6,11 @@ import AuthContext from "../contexts/AuthContext.js";
 import authAPI from "../services/authAPI.js";
 import useAuth from "../services/hooks/useAuth.js";
 
+/**
+ * Handles the logout functionality.
+ *
+ * @return {JSX.Element} - The JSX element.
+ */
 function Navbar() {
   const {
     isAuthenticated,
@@ -19,6 +24,11 @@ function Navbar() {
 
   // const navigate = useNavigate();
 
+  /**
+   * Handles the logout functionality.
+   *
+   * @return {void} No return value.
+   */
   function handleLogout() {
     authAPI.logout();
     setIsAuthenticated(false);
@@ -80,15 +90,34 @@ function Navbar() {
                 Invoices
               </Link>
             </li>
-            {isAdmin && (
-              <li className="nav-item text-center mx-2 mx-lg-1">
-                <a className="nav-link active" aria-current="page" href="/">
-                  <div>
-                    <i className="fas fa-user-plus fa-lg mb-1"></i>
-                  </div>
-                  Add User
-                </a>
-              </li>
+            {!isAdmin && (
+              <>
+                <li className="nav-item text-center mx-2 mx-lg-1">
+                  <Link
+                    className="nav-link active"
+                    aria-current="page"
+                    to="/add-user"
+                  >
+                    <div>
+                      <i className="fas fa-user-plus fa-lg mb-1"></i>
+                    </div>
+                    Add User
+                  </Link>
+                </li>
+
+                <li className="nav-item text-center mx-2 mx-lg-1">
+                  <Link
+                    className="nav-link active"
+                    aria-current="page"
+                    to="/users"
+                  >
+                    <div>
+                      <i className="fas fa-users fa-lg mb-1"></i>
+                    </div>
+                    Users
+                  </Link>
+                </li>
+              </>
             )}
           </ul>
 

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import CustomersAPI from "../../services/customersAPI.js";
+import UsersAPI from "../../services/UsersAPI.js";
 import { toast } from "react-toastify";
 import TableLoader from "../../components/Loaders/TableLoader.jsx";
 import useAuth from "../../services/hooks/useAuth.js";
@@ -10,67 +10,65 @@ import DialogModal from "../../components/DialogModal.jsx";
 import NoFieldPage from "../NoFieldPage.jsx";
 
 const itemsPerPage = 10;
-function CustomersPage() {
+function UsersPage() {
   // const { username, status, isAdmin, firstname, lastname } = useAuth();
-  const { setCustomersLength } = useContext(AuthContext);
+  // const { setUsersLength } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [customers, setCustomers] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
 
-  const [customerIdToDelete, setCustomerIdToDelete] = useState(null);
+  const [userIdToDelete, setUserIdToDelete] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   async function handleConfirmDelete() {
-    await handleDelete(customerIdToDelete);
-    setCustomerIdToDelete(null);
+    await handleDelete(userIdToDelete);
+    setUserIdToDelete(null);
   }
 
-  async function fetchCustomers() {
-    try {
-      const data = await CustomersAPI.findAll();
-      // if (data.length === 0) {
-      //   toast.error("No customers found");
-      // }
-      setCustomers(data);
-      setCustomersLength(data.length);
-      setLoading(false);
-      //toast.success("Customers fetched successfully");
-    } catch (error) {
-      console.log(error);
-      //toast.error("Unable to fetch customers");
-    }
+  async function fetchUsers() {
+    const data = await UsersAPI.findAll();
+
+    console.log(data);
+    setUsers(data);
+    // setUsersLength(data.length);
+    setLoading(false);
+    toast.success("Users fetched successfully");
+    // } catch (error) {
+    //   console.log(error);
+    //   toast.error("Unable to fetch users");
+    // }
   }
 
   /**
-   * Handles the deletion of a customer.
+   * Handles the deletion of a user.
    *
-   * @param {number} id - The ID of the customer to be deleted.
-   * @return {Promise<void>} - A promise that resolves when the customer is deleted.
+   * @param {number} id - The ID of the user to be deleted.
+   * @return {Promise<void>} - A promise that resolves when the user is deleted.
    */
-  async function handleDelete(customerId) {
-    const originalCustomers = [...customers];
-    setCustomers(customers.filter((customer) => customer.id !== customerId));
+  async function handleDelete(userId) {
+    const originalUsers = [...users];
+    setUsers(users.filter((user) => user.id !== userId));
     try {
-      await CustomersAPI.delete(customerId);
-      setCustomersLength(originalCustomers.length - 1);
-      toast.success("Customer deleted successfully");
-      // fetchCustomers();
+      await UsersAPI.delete(userId);
+      setUsersLength(originalUsers.length - 1);
+      toast.success("User deleted successfully");
+      // fetchUsers();
       setCurrentPage(1);
     } catch (error) {
-      toast.error("Unable to delete customer");
-      setCustomers(originalCustomers);
+      toast.error("Unable to delete user");
+      setUsers(originalUsers);
     }
   }
 
-  function handleEdit(customerId) {
-    navigate("/customers/" + customerId);
+  function handleEdit(userId) {
+    navigate("/users/" + userId);
   }
 
   useEffect(() => {
-    fetchCustomers();
+    fetchUsers();
   }, []);
 
   /**
@@ -94,21 +92,21 @@ function CustomersPage() {
     setCurrentPage(1);
   }
 
-  const filteredCustomers = customers.filter(
-    (customer) =>
-      customer.firstName.toLowerCase().includes(search.toLowerCase()) ||
-      customer.lastName.toLowerCase().includes(search.toLowerCase()) ||
-      customer.email.toLowerCase().includes(search.toLowerCase())
+  const filteredUsers = users.filter(
+    (user) =>
+      user.firstName.toLowerCase().includes(search.toLowerCase()) ||
+      user.lastName.toLowerCase().includes(search.toLowerCase()) ||
+      user.email.toLowerCase().includes(search.toLowerCase())
   );
 
-  const paginatedCustomers = Pagination.getData(
-    filteredCustomers,
+  const paginatedUsers = Pagination.getData(
+    filteredUsers,
     currentPage,
     itemsPerPage
   );
 
-  if (customers.length === 0 && !loading) {
-    return <NoFieldPage type={"customers"} />;
+  if (users.length === 0 && !loading) {
+    return <NoFieldPage type={"users"} />;
   }
 
   return (
@@ -116,7 +114,7 @@ function CustomersPage() {
       <div className="container  ">
         <div className="row d-flex justify-content-center ">
           <h1 className="text-center p-5 display-5 text-white">
-            Customers List :{" "}
+            Users List :{" "}
           </h1>
         </div>
 
@@ -139,7 +137,7 @@ function CustomersPage() {
             </button>
           </div>
           <div className="col mb-4 d-flex justify-content-end align-items-center">
-            <Link to="/customers/new" className="btn btn-primary">
+            <Link to="/users/new" className="btn btn-primary">
               <i
                 className="fas fa-user-plus "
                 style={{ fontSize: "20px", color: "aquamarine" }}
@@ -164,38 +162,36 @@ function CustomersPage() {
 
           {!loading && (
             <tbody className="table-group-divider">
-              {paginatedCustomers.map((customer, index) => (
-                <tr key={`${customer.id}-${index}`}>
-                  <td>{customer.id}</td>
-                  <td>{customer.firstName}</td>
-                  <td>{customer.lastName}</td>
-                  <td>{customer.email}</td>
-                  <td>{customer.company}</td>
+              {paginatedUsers.map((user, index) => (
+                <tr key={`${user.id}-${index}`}>
+                  <td>{user.id}</td>
+                  <td>{user.firstName}</td>
+                  <td>{user.lastName}</td>
+                  <td>{user.email}</td>
+                  <td>{user.company}</td>
                   <td>
-                    <span className="badge bg-primary mx-2">
-                      {customer.invoices.length}
-                    </span>
+                    <span className="badge bg-primary mx-2">{user.length}</span>
                   </td>
                   <td>
                     <span className="badge bg-primary mx-2">
-                      {customer.totalAmount.toFixed(2)}
+                      {user.totalAmount.toFixed(2)}
                     </span>
                   </td>
                   <td className="justify-content-start">
                     <button
                       className="btn btn-warning m-1 "
-                      onClick={() => handleEdit(customer.id)}
+                      onClick={() => handleEdit(user.id)}
                     >
                       Update
                     </button>
                     <button
                       data-bs-toggle="modal"
                       data-bs-target="#confirmationModal"
-                      data-customer-id={customer.id}
+                      data-user-id={user.id}
                       className="btn btn-danger "
-                      onClick={() => setCustomerIdToDelete(customer.id)}
-                      disabled={customer.invoices.length > 0}
-                      title={`${customer.invoices.length} && this customer has invoices `}
+                      onClick={() => setUserIdToDelete(user.id)}
+                      disabled={user.length > 0}
+                      title={` `}
                     >
                       Delete
                     </button>
@@ -207,25 +203,25 @@ function CustomersPage() {
         </table>
         {loading && <TableLoader />}
         <div className="d-flex justify-content-center">
-          {filteredCustomers.length > itemsPerPage && (
+          {filteredUsers.length > itemsPerPage && (
             <Pagination
               currentPage={currentPage}
               itemsPerPage={itemsPerPage}
-              length={filteredCustomers.length}
+              length={filterdUsers.length}
               onPageChanged={handlePageChange}
             />
           )}
         </div>
       </div>
       <DialogModal
-        idToDelete={customerIdToDelete}
+        idToDelete={userIdToDelete}
         handleConfirmDelete={handleConfirmDelete}
         setShowModal={setShowModal}
-        title={"Delete Customer"}
-        content={"Are you sure you want to delete this customer ?"}
+        title={"Delete User"}
+        content={"Are you sure you want to delete this user ?"}
       />
     </main>
   );
 }
 
-export default CustomersPage;
+export default UsersPage;

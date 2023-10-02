@@ -9,6 +9,7 @@ import AuthContext from "../../contexts/AuthContext.js";
 
 import { formatDate } from "../../utils/index.js";
 import DialogModal from "../../components/DialogModal.jsx";
+import NoFieldPage from "../NoFieldPage.jsx";
 
 const itemsPerPage = 10;
 
@@ -41,14 +42,14 @@ function InvoicesPage(props) {
     try {
       const data = await invoicesAPI.findAll();
 
-      if (data.length === 0) {
-        toast.error("there are no invoices to display");
-      }
+      // if (data.length === 0) {
+      //   toast.error("there are no invoices to display");
+      // }
 
       setInvoices(data);
       setLoading(false);
       setInvoicesLength(data.length);
-      toast.success("Invoices fetched successfully");
+      // toast.success("Invoices fetched successfully");
     } catch (error) {
       console.log(error);
       toast.error("Unable to fetch invoices");
@@ -121,8 +122,8 @@ function InvoicesPage(props) {
     itemsPerPage
   );
 
-  if (!invoices) {
-    return <NoInvoicesPage />;
+  if (invoices.length === 0 && !loading) {
+    return <NoFieldPage type="invoices" />;
   }
 
   return (
@@ -223,7 +224,7 @@ function InvoicesPage(props) {
           )}
         </table>
         {loading && <TableLoader />}
-        <div className="d-flex justify-content-center">
+        <div >
           {filteredInvoices.length > itemsPerPage && (
             <Pagination
               currentPage={currentPage}

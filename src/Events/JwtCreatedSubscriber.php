@@ -19,7 +19,10 @@ class JwtCreatedSubscriber
             $data = $event->getData();
             $data["firstname"] = $user->getFirstName();
             $data["lastname"] = $user->getLastName();
-            $data["totalTransactions"] = number_format($user->getTotalTransactions(), 2, '.', '');
+            $data["totalTransactions"] = $user->getTotalTransactions();
+            $data['getCustomersCount'] = $user->getCustomersCount();
+            $data['roles'] = $user->getRoles();
+
 
             $event->setData($data);
         }

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { USERS_API } from "../config";
-import { async } from "regenerator-runtime";
+import Cache from "./cache.js";
 
 function register(user) {
   return axios.post(USERS_API, user);
@@ -17,12 +17,11 @@ async function findAll() {
   if (cachedUsers) {
     return cachedUsers;
   }
-  return axios.get(USERS_API).then( (response) => {
-    const users =  response.data["hydra:member"];
-    Cache.set("users", users);
-
-    return users;
-  });
+  const response = await axios.get(USERS_API);
+  const users = response.data["hydra:member"];
+  console.log("users", users);
+  Cache.set("users", users);
+  return users;
 }
 
 export default {

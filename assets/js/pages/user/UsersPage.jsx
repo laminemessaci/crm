@@ -11,7 +11,7 @@ import NoFieldPage from "../NoFieldPage.jsx";
 
 const itemsPerPage = 10;
 function UsersPage() {
-  // const { username, status, isAdmin, firstname, lastname } = useAuth();
+  const { username, status, isAdmin } = useAuth();
   // const { setUsersLength } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -110,7 +110,7 @@ function UsersPage() {
   }
 
   return (
-    <main className="vh-100" style={{ backgroundColor: "#9A616D" }}>
+    <main>
       <div className="container  ">
         <div className="row d-flex justify-content-center ">
           <h1 className="text-center p-5 display-5 text-white">
@@ -150,11 +150,11 @@ function UsersPage() {
           <thead>
             <tr className="text-center table-header text-bold ">
               <th>Id</th>
-              <th>Nom</th>
-              <th>Prénom</th>
+              <th>firstName</th>
+              <th>LastName</th>
               <th>Email</th>
-              <th>Entreprise</th>
-              <th>Invoices</th>
+              <th>Roles</th>
+              <th>customers</th>
               <th>Total Amount</th>
               <th>Actions</th>
             </tr>
@@ -168,13 +168,18 @@ function UsersPage() {
                   <td>{user.firstName}</td>
                   <td>{user.lastName}</td>
                   <td>{user.email}</td>
-                  <td>{user.company}</td>
                   <td>
-                    <span className="badge bg-primary mx-2">{user.length}</span>
+                    {user.roles.includes("USER_ADMIN") ? "Admin" : "User"}
+                  </td>
+
+                  <td>
+                    <span className="badge bg-primary mx-2">
+                      {user.customersCount}
+                    </span>
                   </td>
                   <td>
                     <span className="badge bg-primary mx-2">
-                      {user.totalAmount.toFixed(2)}
+                      {user.totalTransactions.toFixed(2)}
                     </span>
                   </td>
                   <td className="justify-content-start">
@@ -207,7 +212,7 @@ function UsersPage() {
             <Pagination
               currentPage={currentPage}
               itemsPerPage={itemsPerPage}
-              length={filterdUsers.length}
+              length={filteredUsers.length}
               onPageChanged={handlePageChange}
             />
           )}

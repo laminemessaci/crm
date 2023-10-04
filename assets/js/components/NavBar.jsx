@@ -90,7 +90,7 @@ function Navbar() {
                 Invoices
               </Link>
             </li>
-            {!isAdmin && (
+            {isAdmin && (
               <>
                 <li className="nav-item text-center mx-2 mx-lg-1">
                   <Link

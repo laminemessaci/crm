@@ -119,7 +119,7 @@ class Customer
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): static
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -131,7 +131,7 @@ class Customer
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): static
+    public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
 
@@ -143,7 +143,7 @@ class Customer
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -155,7 +155,7 @@ class Customer
         return $this->company;
     }
 
-    public function setCompany(?string $company): static
+    public function setCompany(?string $company): self
     {
         $this->company = $company;
 
@@ -170,7 +170,7 @@ class Customer
         return $this->invoices;
     }
 
-    public function addInvoice(Invoice $invoice): static
+    public function addInvoice(Invoice $invoice): self
     {
         if (!$this->invoices->contains($invoice)) {
             $this->invoices->add($invoice);
@@ -180,7 +180,7 @@ class Customer
         return $this;
     }
 
-    public function removeInvoice(Invoice $invoice): static
+    public function removeInvoice(Invoice $invoice): self
     {
         if ($this->invoices->removeElement($invoice)) {
             // set the owning side to null (unless already changed)
@@ -197,7 +197,7 @@ class Customer
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 

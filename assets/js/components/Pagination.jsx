@@ -23,8 +23,8 @@ export default function Pagination({
     pages.push(i);
   }
   return (
-    <div className="d-flex justify-content-center my-5 bg-light">
-      <ul className="pagination pagination-sm ">
+    <div className="d-flex justify-content-center ">
+      <ul className="pagination pagination-md ">
         <li className={"page-item" + (currentPage === 1 ? " disabled" : "")}>
           <button
             className="page-link"

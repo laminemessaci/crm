@@ -36,6 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Groups(["users_read"])]
     private array $roles = [];
 
     /**
@@ -62,11 +63,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $customers;
 
 
-    #[ORM\Column(type: Types::FLOAT, nullable: true, precision: 10, scale: 2)]
-    #[Groups(["customers_read", "invoices_read", "users_read"])]
-    private ?float $totalTransactions = 0;
-
-
 
     public function __construct()
     {
@@ -83,7 +79,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -122,7 +118,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): static
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -139,7 +135,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -160,7 +156,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): static
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -172,7 +168,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): static
+    public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
 
@@ -182,6 +178,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Customer>
      */
+
     public function getCustomers(): Collection
     {
         return $this->customers;
@@ -192,9 +189,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Adds a customer to the user's list of customers and sets the user as the customer's user.
      *
      * @param Customer $customer The customer to be added.
-     * @return static The updated user object.
+     * @return self The updated user object.
      */
-    public function addCustomer(Customer $customer): static
+    public function addCustomer(Customer $customer): self
     {
         if (!$this->customers->contains($customer)) {
             $this->customers->add($customer);
@@ -204,25 +201,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    #[Groups(["users_read"])]
+    public function getCustomersCount(): int
+    {
+        return $this->getCustomers()->count();
+    }
 
-    /**
-     * Calculate total amount for all customers
-     *
-     * @return float
-     */
+    // public function getUnpaidAmount(): float
+    // {
+    //     $total =  array_reduce($this->customers->toArray(), function ($total, $customer) {
+    //         return $total + $customer->getUnpaidAmount();
+    //     }, 0);
+
+    //     $total = $total - $this->getTotalTransactions();
+    //     return $total;
+    // }
+
+
+
     #[Groups(["users_read"])]
     public function getTotalTransactions(): float
     {
-        $total =  array_reduce($this->customers->toArray(), function ($total, $customer) {
-            return $total + $customer->getTotalAmount();
-        }, 0);
+        $total = 0;
 
-        $this->totalTransactions = $total;
-        return $this->totalTransactions;
+        foreach ($this->customers as $customer) {
+            $total += $customer->getTotalAmount();
+        }
+
+        return $total;
     }
 
 
-    public function removeCustomer(Customer $customer): static
+    public function removeCustomer(Customer $customer): self
     {
         if ($this->customers->removeElement($customer)) {
             // set the owning side to null (unless already changed)

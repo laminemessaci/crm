@@ -13,7 +13,14 @@ const useAuth = () => {
     const authToken = window.localStorage.getItem("authToken");
     const decoded = jwtDecode(authToken);
 
-    const { username, roles, firstname, lastname, totalTransactions } = decoded;
+    const {
+      username,
+      roles,
+      firstname,
+      lastname,
+      totalTransactions,
+      customerCount,
+    } = decoded;
 
     //     console.log("decoded", decoded.UserInfo);
 
@@ -29,6 +36,7 @@ const useAuth = () => {
       firstname,
       lastname,
       totalTransactions,
+      customerCount,
     };
   }
 

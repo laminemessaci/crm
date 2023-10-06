@@ -136,14 +136,16 @@ function UsersPage() {
               <i className="fas fa-search"></i>
             </button>
           </div>
-          <div className="col mb-4 d-flex justify-content-end align-items-center">
-            <Link to="/users/new" className="btn btn-primary">
-              <i
-                className="fas fa-user-plus "
-                style={{ fontSize: "20px", color: "aquamarine" }}
-              ></i>
-            </Link>
-          </div>
+          {isAdmin && (
+            <div className="col mb-4 d-flex justify-content-end align-items-center">
+              <Link to="/users/new" className="btn btn-primary">
+                <i
+                  className="fas fa-user-plus "
+                  style={{ fontSize: "20px", color: "aquamarine" }}
+                ></i>
+              </Link>
+            </div>
+          )}
         </div>
 
         <table className="table table-striped bg-light table-hover table-bordered text-center">

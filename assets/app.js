@@ -78,16 +78,20 @@ const App = () => {
               >
                 <Route path="/customers" element={<CustomersPage />} />
                 <Route path="/customers/:id" element={<CustomerPage />} />
+
                 <Route path="/invoices" element={<InvoicesPage />} />
                 <Route path="/invoices/:id" element={<InvoicePage />} />
+
                 <Route path="/user-profile" element={<ProfilePage />} />
                 <Route path="/user-settings" element={<UserSettings />} />
+
                 <Route
                   element={
                     <RequireAuth allowedRoles={[ROLES.Admin, ROLES.User]} />
                   }
                 >
                   <Route path="/users" element={<UsersPage />} />
+                  <Route path="/users/:id" element={<UserSettings />} />
                 </Route>
               </Route>
             </Route>

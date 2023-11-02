@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import UsersAPI from "../../services/UsersAPI.js";
+
 import { toast } from "react-toastify";
 import TableLoader from "../../components/Loaders/TableLoader.jsx";
 import useAuth from "../../services/hooks/useAuth.js";
@@ -8,6 +8,7 @@ import AuthContext from "../../contexts/AuthContext.js";
 import { Link, useNavigate } from "react-router-dom";
 import DialogModal from "../../components/DialogModal.jsx";
 import NoFieldPage from "../NoFieldPage.jsx";
+import usersAPI from "../../services/usersAPI.js";
 
 const itemsPerPage = 10;
 function UsersPage() {
@@ -29,7 +30,7 @@ function UsersPage() {
   }
 
   async function fetchUsers() {
-    const data = await UsersAPI.findAll();
+    const data = await usersAPI.findAll();
 
     console.log(data);
     setUsers(data);

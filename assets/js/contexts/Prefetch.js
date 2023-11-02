@@ -3,9 +3,8 @@ import { Outlet } from "react-router-dom";
 import invoicesAPI from "../services/invoicesAPI.js";
 import customersAPI from "../services/customersAPI.js";
 import AuthContext from "./AuthContext.js";
-import { toast } from "react-toastify";
-import UsersAPI from "../services/UsersAPI.js";
 import useAuth from "../services/hooks/useAuth.js";
+import usersAPI from "../services/usersAPI.js";
 
 const Prefetch = () => {
   const { setCustomersLength, setInvoicesLength } = useContext(AuthContext);
@@ -44,7 +43,7 @@ const Prefetch = () => {
 
   async function fetchUsers() {
     try {
-      const data = await UsersAPI.findAll();
+      const data = await usersAPI.findAll();
       setUsers(data);
       setLoading(false);
       //  toast.success("Users fetched successfully");

@@ -70,7 +70,6 @@
     },
     "post-install-cmd": [
       "@auto-scripts",
-      "doctrine:migrations:migrate -n",
       "php artisan clear-compiled",
       "chmod -R 777 public/"
     ],

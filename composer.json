@@ -66,10 +66,13 @@
   "scripts": {
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+      "assets:install %PUBLIC_DIR%": "symfony-cmd",
+      "doctrine:migrations:migrate -n": "symfony-cmd"
     },
     "post-install-cmd": [
-      "@auto-scripts"
+      "@auto-scripts",
+      "php artisan clear-compiled",
+      "chmod -R 777 public/"
     ],
     "post-update-cmd": [
       "@auto-scripts"

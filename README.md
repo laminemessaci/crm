@@ -83,7 +83,7 @@ This CRM application is open-source and available under the MIT License. See the
 
 ## Contact
 
-If you have any questions or need assistance, feel free to contact us at [your-email@example.com](mailto:lamine.messaci@gmail.com).
+If you have any questions or need assistance, feel free to contact us at [lamine.messaci@gmail.com](mailto:lamine.messaci@gmail.com).
 
 ---
 

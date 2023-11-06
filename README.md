@@ -63,9 +63,6 @@ Follow these steps to set up and run the application:
 - [react-router-dom](https://reactrouter.com/web/guides/quick-start): Provides routing components for React applications.
 - [react-toastify](https://fkhadra.github.io/react-toastify/): A notification library for React applications.
 
-**Continuation du README.md**
-
-```markdown
 ## Usage
 
 - Navigate to the homepage to start managing your customers and interactions.

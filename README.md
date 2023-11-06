@@ -1,6 +1,11 @@
 # CRM Application
 
 CRM (Customer Relationship Management) is a web application built with Symfony 6 and React for managing customer relationships and interactions. It allows you to keep track of customers, their interactions, and other related data.
+## Demo: 
+
+
+https://github.com/laminemessaci/crm/assets/60298344/9bdc177e-4c0c-4743-b2d6-96473243e326
+
 
 ## Features
 

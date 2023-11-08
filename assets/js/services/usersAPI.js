@@ -19,7 +19,7 @@ async function findAll() {
   }
   const response = await axios.get(USERS_API);
   const users = response.data["hydra:member"];
-  console.log("users", users);
+ 
   Cache.set("users", users);
   return users;
 }
